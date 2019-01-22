@@ -22,12 +22,12 @@ public class Topic {
     private String summary;
     private String speaker;
     private Date dateTime;
-    private AtomicInteger rate;
+    private Integer rate;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Question> questions;
 
-    public Topic(Conference conf_ID, String name, String summary, String speaker, Date dateTime, AtomicInteger rate, List<Question> questions) {
+    public Topic(Conference conf_ID, String name, String summary, String speaker, Date dateTime, Integer rate, List<Question> questions) {
         this.conf_ID = conf_ID;
         this.name = name;
         this.summary = summary;
@@ -88,11 +88,11 @@ public class Topic {
         this.dateTime = dateTime;
     }
 
-    public AtomicInteger getRate() {
+    public Integer getRate() {
         return rate;
     }
 
-    public void setRate(AtomicInteger rate) {
+    public void setRate(Integer rate) {
         this.rate = rate;
     }
 
