@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Entity
@@ -14,31 +13,32 @@ public class Topic {
     @Id
     @GeneratedValue
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "conference_id", nullable = false)
     @JsonBackReference
-    private Conference conf_ID;
+    private Conference conference;
 
     private String name;
     private String summary;
     private String speaker;
     private Date dateTime;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Integer rate;
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
-//    @JsonManagedReference
-//    private List<Question> questions;
 
-    public Topic(Conference conf_ID, String name, String summary, String speaker, Date dateTime, Integer rate
-//            , List<Question> questions
+    private Integer rate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
+    @JsonManagedReference
+    private List<Question> questions;
+
+    public Topic(Conference conference, String name, String summary, String speaker, Date dateTime, Integer rate, List<Question> questions
     ) {
-        this.conf_ID = conf_ID;
+        this.conference = conference;
         this.name = name;
         this.summary = summary;
         this.speaker = speaker;
         this.dateTime = dateTime;
         this.rate = rate;
-//        this.questions = questions;
+        this.questions = questions;
     }
 
     public Topic() {
@@ -52,12 +52,12 @@ public class Topic {
         this.id = id;
     }
 
-    public Conference getConf_ID() {
-        return conf_ID;
+    public Conference getConference() {
+        return conference;
     }
 
-    public void setConf_ID(Conference conf_ID) {
-        this.conf_ID = conf_ID;
+    public void setConference(Conference conference) {
+        this.conference = conference;
     }
 
     public String getName() {
@@ -100,11 +100,11 @@ public class Topic {
         this.rate = rate;
     }
 
-//    public List<Question> getQuestions() {
-//        return questions;
-//    }
-//
-//    public void setQuestions(List<Question> questions) {
-//        this.questions = questions;
-//    }
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
 }
