@@ -1,9 +1,6 @@
 package ifit.cluster.cassistant.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Question {
@@ -12,17 +9,19 @@ public class Question {
     private Long id;
     private String email;
     private String text;
-    private Long topicId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Topic topic;
     private Integer rate;
     private Status status;
 
     public Question() {
     }
 
-    public Question(String email, String text, Long topicId, Integer rate, Status status) {
+    public Question(String email, String text, Topic topic, Integer rate, Status status) {
         this.email = email;
         this.text = text;
-        this.topicId = topicId;
+        this.topic = topic;
         this.rate = rate;
         this.status = status;
     }
@@ -43,12 +42,12 @@ public class Question {
         this.text = text;
     }
 
-    public Long getTopicId() {
-        return topicId;
+    public Topic getTopic() {
+        return topic;
     }
 
-    public void setTopicId(Long topicId) {
-        this.topicId = topicId;
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
     public Integer getRate() {
