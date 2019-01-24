@@ -1,6 +1,7 @@
 package ifit.cluster.cassistant.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,9 +23,10 @@ public class Topic {
     private String summary;
     private String speaker;
     private Date dateTime;
-    private Integer rate;
-
     @ManyToMany(fetch = FetchType.LAZY)
+    private Integer rate;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
+    @JsonManagedReference
     private List<Question> questions;
 
     public Topic(Conference conf_ID, String name, String summary, String speaker, Date dateTime, Integer rate, List<Question> questions) {
