@@ -25,18 +25,20 @@ public class Topic {
     private Date dateTime;
     @ManyToMany(fetch = FetchType.LAZY)
     private Integer rate;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
-    @JsonManagedReference
-    private List<Question> questions;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
+//    @JsonManagedReference
+//    private List<Question> questions;
 
-    public Topic(Conference conf_ID, String name, String summary, String speaker, Date dateTime, Integer rate, List<Question> questions) {
+    public Topic(Conference conf_ID, String name, String summary, String speaker, Date dateTime, Integer rate
+//            , List<Question> questions
+    ) {
         this.conf_ID = conf_ID;
         this.name = name;
         this.summary = summary;
         this.speaker = speaker;
         this.dateTime = dateTime;
         this.rate = rate;
-        this.questions = questions;
+//        this.questions = questions;
     }
 
     public Topic() {
@@ -98,11 +100,11 @@ public class Topic {
         this.rate = rate;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
+//    public List<Question> getQuestions() {
+//        return questions;
+//    }
+//
+//    public void setQuestions(List<Question> questions) {
+//        this.questions = questions;
+//    }
 }
