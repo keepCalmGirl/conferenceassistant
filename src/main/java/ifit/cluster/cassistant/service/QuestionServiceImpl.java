@@ -1,6 +1,5 @@
 package ifit.cluster.cassistant.service;
 
-
 import ifit.cluster.cassistant.domain.Question;
 import ifit.cluster.cassistant.domain.Status;
 import ifit.cluster.cassistant.repository.QuestionRepository;
@@ -19,26 +18,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Integer incrementRate(Long questionId){
-     questionRepository.incrementRate(questionId);
-     return questionRepository.findById(questionId).get().getRate();
+    public void incrementRate(Long question_id){
+     Question question = questionRepository.findById(question_id).get();
+     Integer rate = question.getRate();
+     question.setRate(rate++);
     }
 
     @Override
-    public Integer decrementRate(Long questionId) {
-        questionRepository.decrementRate(questionId);
-        return questionRepository.findById(questionId).get().getRate();
-    }
-
-    @Override
-    public Status updateStatus(Long questionId, Status status) {
-      questionRepository.findById(questionId).get().setStatus(status);
-      return questionRepository.findById(questionId).get().getStatus();
-    }
-
-    @Override
-    public Question getQuestion(Long questionId) {
-        return questionRepository.findById(questionId).get();
+    public Status updateStatus(Long question_id, Status status) {
+      questionRepository.findById(question_id).get().setStatus(status);
+      return questionRepository.findById(question_id).get().getStatus();
     }
 
     @Override
