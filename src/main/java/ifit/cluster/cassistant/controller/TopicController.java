@@ -3,7 +3,7 @@ package ifit.cluster.cassistant.controller;
 import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
 import ifit.cluster.cassistant.repository.ConferenceRepository;
-import ifit.cluster.cassistant.service.TopicServiceImpl;
+import ifit.cluster.cassistant.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class TopicController {
 
     @Autowired
-    private TopicServiceImpl topicService;
+    private TopicService topicService;
 
     @Autowired
     private ConferenceRepository conferenceRepository;
@@ -39,8 +39,9 @@ public class TopicController {
 
     @GetMapping("/topic")
     public String topicForm(Model model) {
+
         model.addAttribute("topic", new Topic());
-        model.addAttribute("conference", conferenceRepository.findById(2L));
+//        model.addAttribute("conference", conferenceRepository.findById(2L));
         return "topic_form";
     }
 
