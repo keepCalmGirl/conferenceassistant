@@ -1,9 +1,13 @@
 package ifit.cluster.cassistant.service;
 
+import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
 import ifit.cluster.cassistant.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -20,12 +24,23 @@ public class TopicServiceImpl implements TopicService {
     public Integer incrementRate(Long topicId) {
 
         topicRepository.incrementRate(topicId);
-        topicRepository.findById(topicId).get().getRate();
-        return 0;
+        return topicRepository.findById(topicId).get().getRate();
+    }
+
+    @Override
+    public Integer decrementRate(Long topicId) {
+        topicRepository.decrementRate(topicId);
+        return topicRepository.findById(topicId).get().getRate();
+    }
+
+    @Override
+    public Topic saveTopic(Topic topic) {
+        return topicRepository.save(topic);
     }
 
     @Override
     public boolean checkEmail(String email) {
         return false;
     }
+
 }

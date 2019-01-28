@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  lan>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Form</h1>
+<form action="#" th:action="@{/topic}" th:object="${topic}" method="post">
+    <p>Name: <input type="text" th:field="*{name}" /></p>
+    <p>Summary: <input type="text" th:field="*{summary}" /></p>
+    <p>Speaker: <input type="text" th:field="*{speaker}"></p>
+    <p>Date & time: <input type="datetime-local" th:field="*{dateTime}"></p>
+
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 th:utext="'Conference - ' + ${topic.getConference().getName()}"></h1>
+<h2 th:utext="'Topic - ' + ${topic.getName()} + ' by speaker '+ ${topic.getSpeaker()} + ' at ' + ${topic.getDateTime()}"></h2>
+<h2 > Summary:</h2>
+<p th:utext="${topic.getSummary()}"></p>
+<p th:utext="'Rate - ' + ${topic.getRate()}"></p>
+
+<form method="post" th:action="@{'/topics/'+${topic.getId()}+'/like'}">
+    <button >Like</button>
+</form>
+<form method="post" th:action="@{'/topics/'+${topic.getId()}+'/dislike'}">
+    <button >Dislike</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th> Text </th>
+        <th> Rate </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${topic.getQuestions().isEmpty()}">
+        <td colspan="2"> No Questions Available </td>
+    </tr>
+    <tr th:each="question : ${topic.getQuestions()}">
+        <td><span th:text="${question.getText()}"> Text </span></td>
+        <td><span th:text="${question.getRate()}"> Rate </span></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
