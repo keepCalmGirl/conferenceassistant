@@ -19,9 +19,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void incrementRate(Long question_id){
-     Question question = questionRepository.findById(question_id).get();
-     Integer rate = question.getRate();
-     question.setRate(rate++);
+     questionRepository.incrementRate(question_id);
     }
 
     @Override
