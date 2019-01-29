@@ -3,6 +3,7 @@ package ifit.cluster.cassistant.controller;
 import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
 import ifit.cluster.cassistant.repository.ConferenceRepository;
+import ifit.cluster.cassistant.service.ConferenceService;
 import ifit.cluster.cassistant.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ public class TopicController {
     private TopicService topicService;
 
     @Autowired
-    private ConferenceRepository conferenceRepository;
+    private ConferenceService conferenceService;
 
     @GetMapping("/topics/{id}")
     public String getTopic(@PathVariable("id") Long topicId, Model model){
@@ -37,25 +38,25 @@ public class TopicController {
         return "redirect:/topics/"+topicId;
     }
 
-    @GetMapping("/topic")
-    public String topicForm(Model model) {
+    @GetMapping("/{conferenceId}/topic")
+    public String topicForm(@PathVariable("conferenceId") Long conferenceId ,Model model) {
 
         model.addAttribute("topic", new Topic());
-//        model.addAttribute("conference", conferenceRepository.findById(2L));
+        model.addAttribute("conferenceId" , conferenceId);
+
         return "topic_form";
     }
 
-    @PostMapping("/topic")
-    public String topicSubmit(@ModelAttribute Topic topic, Model model) {
-//        need to fix !!! I don`t know how to pass conference to Topic object
-        Conference conference = new Conference("Confer2", "Java10");
-        conferenceRepository.save(conference);
-        topic.setConference(conference);
-//        need to fix!!! Maybe set set default value "0" to rate
-        topic.setRate(0);
+    @PostMapping("/{conferenceId}/topic")
+    public String topicSubmit(@PathVariable("conferenceId") Long conferenceId
+            ,@ModelAttribute Topic topic , Model model) {
 
-        topicService.saveTopic(topic);
+        topic.setRate(0);
+        topicService.saveTopic(topic, conferenceId);
+
         model.addAttribute("topic", topic);
+
         return "redirect:/topics/"+topic.getId();
     }
+
 }

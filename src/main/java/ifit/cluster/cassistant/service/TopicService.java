@@ -7,5 +7,5 @@ public interface TopicService {
     Integer incrementRate(Long topicId);
     Integer decrementRate(Long topicId);
     boolean checkEmail(String email);
-    Topic saveTopic(Topic topic);
+    Topic saveTopic(Topic topic, Long conferenceId);
 }

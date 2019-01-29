@@ -2,6 +2,7 @@ package ifit.cluster.cassistant.service;
 
 import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
+import ifit.cluster.cassistant.repository.ConferenceRepository;
 import ifit.cluster.cassistant.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class TopicServiceImpl implements TopicService {
 
     @Autowired
     private TopicRepository topicRepository;
+
+    @Autowired
+    private ConferenceRepository conferenceRepository;
 
     @Override
     public Topic getTopic(Long topicId) {
@@ -34,7 +38,8 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic saveTopic(Topic topic) {
+    public Topic saveTopic(Topic topic, Long conferenceId) {
+        topic.setConference(conferenceRepository.findById(conferenceId).get());
         return topicRepository.save(topic);
     }
 

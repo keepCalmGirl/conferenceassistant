@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"  lan>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add topic</title>
 </head>
 <body>
 <h1>Form</h1>
-<form action="#" th:action="@{/topic}" th:object="${topic}" method="post">
-    <p>Name: <input type="text" th:field="*{name}" /></p>
-    <p>Summary: <input type="text" th:field="*{summary}" /></p>
-    <p>Speaker: <input type="text" th:field="*{speaker}"></p>
-    <p>Date & time: <input type="datetime-local" th:field="*{dateTime}"></p>
-
+<form action="#" th:action="|/${conferenceId}/topic|" th:object="${topic}" method="post">
+    <p>Name: <input type="text" name="name" th:field="*{name}" /></p>
+    <p>Summary: <input type="text" name="summary" th:field="*{summary}" /></p>
+    <p>Speaker: <input type="text" name="speaker" th:field="*{speaker}"></p>
+    <p>Data: <input type="datetime-local" name="dateTime" th:field="*{dateTime}"></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
 </body>

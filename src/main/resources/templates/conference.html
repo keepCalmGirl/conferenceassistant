@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Conference</title>
 </head>
 <body>
-
+        <h1 th:utext=" |Conference: ${conference.name}| "></h1>
+                <h3>Topic list:</h3>
+                <table>
+                    <tbody>
+                        <tr th:each="topic : ${conference.topic}">
+                            <td>
+                                Topic name:<a th:href="'/topics/'+${topic.id}">
+                                    <h4 th:text="${topic.name}"></h4>
+                                </a>
+                            </td>
+                            <td><h4 th:text="'Date & time: '+${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:ss')}"></h4></td>
+                        </tr>
+                </tbody><br>
+                </table>
+        <form action="#" th:action="|${conference.id_hash}/topic/|" method="get">
+            <button><h5>Add new topic</h5></button>
+        </form>
 </body>
 </html>

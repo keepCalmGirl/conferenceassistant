@@ -16,12 +16,12 @@ public class ConferenceController {
     @GetMapping("/{id}")
     public String getConference(@PathVariable("id") Long conferenceId, Model model){
         model.addAttribute("conference", conferenceService.getConference(conferenceId));
-        return "topic";
+        return "conference";
     }
 
     @GetMapping("/")
     public String getConferences(Model model){
         model.addAttribute("conferences", conferenceService.getAllConferences());
-        return "conferences";
+        return "conference";
     }
 }
