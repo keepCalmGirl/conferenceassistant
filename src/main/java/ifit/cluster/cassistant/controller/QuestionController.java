@@ -19,7 +19,6 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-
     @PostMapping("/topic/questions/{id}/like")
     public String incrementRate(@PathVariable("id") Long questionId){
         questionService.incrementRate(questionId);
@@ -30,6 +29,21 @@ public class QuestionController {
     public String decrementRate(@PathVariable("id") Long questionId){
         questionService.decrementRate(questionId);
         return "redirect:/topic/questions/"+questionId;
+    }
+
+    @GetMapping("/topic/{id}/question")
+    public String questionForm(@PathVariable("id") Long topicId, Model model) {
+        model.addAttribute("question", new Question());
+        model.addAttribute("topicId", topicId);
+        return "question_form";
+    }
+
+    @PostMapping("/topic/{id}/question")
+    public String questionSubmit(@PathVariable("id") Long topicId, @ModelAttribute Question question, Model model) {
+        question.setRate(0);
+        questionService.saveQuestion(question, topicId);
+        model.addAttribute("topic", topicId);
+        return "redirect:/topics/" + topicId;
     }
 
 

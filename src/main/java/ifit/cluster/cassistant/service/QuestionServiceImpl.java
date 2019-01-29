@@ -12,13 +12,17 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private TopicRepository topicRepository;
+
     @Override
     public Question getQuestion(Long questionId) {
         return questionRepository.findById(questionId).get();
     }
 
     @Override
-    public Question saveQuestion(Question question){
+    public Question saveQuestion(Question question, Long topicId){
+        question.setTopic(topicRepository.findById(topicId).get());
         return questionRepository.save(question);
     }
 
