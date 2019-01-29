@@ -13,23 +13,36 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionRepository questionRepository;
 
     @Override
+    public Question getQuestion(Long questionId) {
+        return questionRepository.findById(questionId).get();
+    }
+
+    @Override
     public Question saveQuestion(Question question){
         return questionRepository.save(question);
     }
 
     @Override
-    public void incrementRate(Long question_id){
-     questionRepository.incrementRate(question_id);
+    public Integer incrementRate(Long questionId){
+
+        questionRepository.incrementRate(questionId);
+        return questionRepository.findById(questionId).get().getRate();
     }
 
     @Override
-    public Status updateStatus(Long question_id, Status status) {
-      questionRepository.findById(question_id).get().setStatus(status);
-      return questionRepository.findById(question_id).get().getStatus();
+    public Integer decrementRate(Long questionId) {
+        questionRepository.decrementRate(questionId);
+        return questionRepository.findById(questionId).get().getRate();
     }
 
     @Override
-    public Boolean checkEmail(Long question_id, String email){
+    public Status updateStatus(Long questionId, Status status) {
+      questionRepository.findById(questionId).get().setStatus(status);
+      return questionRepository.findById(questionId).get().getStatus();
+    }
+
+    @Override
+    public Boolean checkEmail(Long questionId, String email){
           return false;
     }
 
