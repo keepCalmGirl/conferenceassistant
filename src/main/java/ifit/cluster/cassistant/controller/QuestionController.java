@@ -20,12 +20,6 @@ public class QuestionController {
     private QuestionService questionService;
 
 
-    @GetMapping("/topic/questions/{id}")
-    public String getQuestion(@PathVariable("id") Long questionId, Model model){
-        model.addAttribute("question", questionService.getQuestion(questionId));
-        return "question";
-    }
-
     @PostMapping("/topic/questions/{id}/like")
     public String incrementRate(@PathVariable("id") Long questionId){
         questionService.incrementRate(questionId);
