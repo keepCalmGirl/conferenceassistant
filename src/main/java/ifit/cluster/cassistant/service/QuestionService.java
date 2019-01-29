@@ -1,4 +1,4 @@
-package ifit.cluster.cassistant.Service;
+package ifit.cluster.cassistant.service;
 
 import ifit.cluster.cassistant.domain.Question;
 import ifit.cluster.cassistant.domain.Status;
