@@ -2,6 +2,7 @@ package ifit.cluster.cassistant.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,8 +23,9 @@ public class Topic {
     private String name;
     private String summary;
     private String speaker;
-    private Date dateTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date dateTime;
     private Integer rate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
@@ -39,6 +41,15 @@ public class Topic {
         this.dateTime = dateTime;
         this.rate = rate;
         this.questions = questions;
+    }
+
+    public Topic(Conference conference, String name, String summary, String speaker, Date dateTime, Integer rate) {
+        this.conference = conference;
+        this.name = name;
+        this.summary = summary;
+        this.speaker = speaker;
+        this.dateTime = dateTime;
+        this.rate = rate;
     }
 
     public Topic() {
