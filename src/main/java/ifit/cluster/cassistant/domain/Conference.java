@@ -26,6 +26,11 @@ public class Conference {
         this.topic = topic;
     }
 
+    public Conference(String name, String info) {
+        this.name = name;
+        this.info = info;
+    }
+
     public Long getId_hash() {
         return id_hash;
     }
