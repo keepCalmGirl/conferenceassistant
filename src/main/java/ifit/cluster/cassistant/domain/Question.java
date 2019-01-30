@@ -18,12 +18,25 @@ public class Question {
     public Question() {
     }
 
+    public Question(String email, String text) {
+        this.email = email;
+        this.text = text;
+    }
+
     public Question(String email, String text, Topic topic, Integer rate, Status status) {
         this.email = email;
         this.text = text;
         this.topic = topic;
         this.rate = rate;
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {

@@ -2,16 +2,27 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Conference</title>
+    <title th:text="${conference.name}"></title>
 </head>
 <body>
+        <a th:href="'/'"><h2>All conference</h2></a>
         <h1 th:utext=" |Conference: ${conference.name}| "></h1>
+        <h2 th:text="|About conference: ${conference.info}|"></h2>
                 <h3>Topic list:</h3>
                 <table>
+                    <thead>
+                        <tr>
+                            <th> Topic name </th>
+                            <th> Date </th>
+                        </tr>
+                    </thead>
                     <tbody>
+                    <tr th:if="*{conference.topic.isEmpty()}">
+                        <td colspan="2"> No Topics Available </td>
+                    </tr>
                         <tr th:each="topic : ${conference.topic}">
                             <td>
-                                Topic name:<a th:href="'/topics/'+${topic.id}">
+                                <a th:href="'/topics/'+${topic.id}">
                                     <h4 th:text="${topic.name}"></h4>
                                 </a>
                             </td>

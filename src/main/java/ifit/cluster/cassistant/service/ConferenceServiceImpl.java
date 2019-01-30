@@ -23,4 +23,9 @@ public class ConferenceServiceImpl implements ConferenceService {
     public List<Conference> getAllConferences() {
         return (List<Conference>) conferenceRepository.findAll();
     }
+
+    @Override
+    public Conference saveConference(Conference conference) {
+        return conferenceRepository.save(conference);
+    }
 }

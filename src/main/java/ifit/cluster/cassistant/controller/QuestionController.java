@@ -2,9 +2,11 @@ package ifit.cluster.cassistant.controller;
 
 import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Question;
+import ifit.cluster.cassistant.domain.Status;
 import ifit.cluster.cassistant.domain.Topic;
 import ifit.cluster.cassistant.repository.QuestionRepository;
 import ifit.cluster.cassistant.service.QuestionService;
+import ifit.cluster.cassistant.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,28 +21,36 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    @PostMapping("/topic/questions/{id}/like")
-    public String incrementRate(@PathVariable("id") Long questionId){
+    @Autowired
+    TopicService topicService;
+
+    @PostMapping("/topics/{topicId}/questions/{questionId}/like")
+    public String incrementRate(@PathVariable("topicId") Long topicId
+            ,@PathVariable("questionId") Long questionId){
         questionService.incrementRate(questionId);
-        return "redirect:/topic/questions/"+questionId;
+        return "redirect:/topics/"+topicId;
     }
 
-    @PostMapping("/topic/questions/{id}/dislike")
-    public String decrementRate(@PathVariable("id") Long questionId){
+    @PostMapping("/topics/{topicId}/questions/{questionId}/dislike")
+    public String decrementRate(@PathVariable("topicId") Long topicId
+            ,@PathVariable("questionId") Long questionId){
         questionService.decrementRate(questionId);
-        return "redirect:/topic/questions/"+questionId;
+        return "redirect:/topics/"+topicId;
     }
 
-    @GetMapping("/topic/{id}/question")
-    public String questionForm(@PathVariable("id") Long topicId, Model model) {
+    @GetMapping("/topics/{topicId}/question")
+    public String questionForm(@PathVariable("topicId") Long topicId, Model model) {
         model.addAttribute("question", new Question());
         model.addAttribute("topicId", topicId);
         return "question_form";
     }
 
-    @PostMapping("/topic/{id}/question")
+    @PostMapping("/topics/{id}/question")
     public String questionSubmit(@PathVariable("id") Long topicId, @ModelAttribute Question question, Model model) {
         question.setRate(0);
+        question.setTopic(topicService.getTopic(topicId));
+        question.setStatus(Status.NEW);
+
         questionService.saveQuestion(question, topicId);
         model.addAttribute("topic", topicId);
         return "redirect:/topics/" + topicId;
