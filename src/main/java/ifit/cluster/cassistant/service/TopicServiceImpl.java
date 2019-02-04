@@ -1,14 +1,10 @@
 package ifit.cluster.cassistant.service;
 
-import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
 import ifit.cluster.cassistant.repository.ConferenceRepository;
 import ifit.cluster.cassistant.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class TopicServiceImpl implements TopicService {
