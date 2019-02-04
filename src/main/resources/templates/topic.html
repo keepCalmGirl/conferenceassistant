@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Title</title>
     <title>Topic</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -17,19 +15,15 @@
 </head>
 
 <body>
-
 <div class="container">
     <div th:include="header"></div>
-
 
     <table class="table table-hover">
         <thead>
         <tr>
-
             <th scope="col">questions</th>
             <th scope="col">status</th>
             <th scope="col">rate</th>
-
         </tr>
         </thead>
 
@@ -61,47 +55,18 @@
         </tr>
         </tbody>
     </table>
-
-    <h2 th:utext="|Topic: ${topic.name} by speaker ${topic.speaker} at ${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:mm')}|"></h2>
-    <h2> Summary:</h2>
-    <p th:utext="${topic.summary}"></p>
-    <p th:utext="|Rate: ${topic.rate}|"></p>
-
-    <form method="post" th:action="@{|/topics/${topic.id}/like|}">
-        <button>Like</button>
+    <form action="#" th:action="|/topics/${topic.id}/question|" method="get">
+        <button class="btn btn-outline-dark">Add new question</button>
     </form>
-    <form method="post" th:action="@{|/topics/${topic.id}/dislike|}">
-        <button>Dislike</button>
-    </form>
-<form action="#" th:action="|/topics/${topic.id}/question|" method="get">
-    <button><h5>Add new question</h5></button>
-</form>
-<script >
-    function changeQuestionStatus(value, questionId) {
-        $.ajax({
-            url: "/question/"+questionId+"/"+value,
-            type:"POST"
-        });
-        return false;
-    }
-</script>
-    <table>
-        <thead>
-        <tr>
-            <th> Text</th>
-            <th> Rate</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:if="${topic.questions.isEmpty()}">
-            <td colspan="2"> No Questions Available</td>
-        </tr>
-        <tr th:each="question : ${topic.questions}">
-            <td><span th:text="${question.text}"> Text </span></td>
-            <td><span th:text="${question.rate}"> Rate </span></td>
-        </tr>
-        </tbody>
-    </table>
+    <script>
+        function changeQuestionStatus(value, questionId) {
+            $.ajax({
+                url: "/question/" + questionId + "/" + value,
+                type: "POST"
+            });
+            return false;
+        }
+    </script>
 </div>
 </body>
 </html>
