@@ -38,15 +38,16 @@
             <td th:text="${topic.name}"></td>
             <td th:text="${topic.speaker}"></td>
             <td th:text="${topic.summary}"></td>
-            <td th:text="${topic.dateTime}"></td>
+            <td th:text="${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:mm')}"></td>
             <td th:text="${topic.rate}"></td>
         </tr>
         </tbody>
     </table>
 
     <form action="#" th:action="|${conference.id_hash}/topic/|" method="get">
-        <button type="button" class="btn btn-outline-dark">Add new topic</button>
+        <button class="btn btn-outline-dark">Add new topic</button>
     </form>
+
 </div>
 
 
