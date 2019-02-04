@@ -42,7 +42,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Status updateStatus(Long questionId, Status status) {
-        questionRepository.findById(questionId).get().setStatus(status);
+        Question question = questionRepository.findById(questionId).get();
+        question.setStatus(status);
+        questionRepository.save(question);
         return questionRepository.findById(questionId).get().getStatus();
     }
 
@@ -50,6 +52,8 @@ public class QuestionServiceImpl implements QuestionService {
     public Boolean checkEmail(Long questionId, String email){
         return false;
     }
+
+
 
 
 }

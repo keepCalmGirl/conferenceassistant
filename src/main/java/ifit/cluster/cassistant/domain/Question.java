@@ -12,8 +12,8 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Topic topic;
-    private Integer rate;
-    private Status status;
+    private Integer rate = 0;
+    private Status status = Status.NEW;
 
     public Question() {
     }

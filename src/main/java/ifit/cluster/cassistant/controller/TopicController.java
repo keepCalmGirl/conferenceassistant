@@ -1,9 +1,7 @@
 package ifit.cluster.cassistant.controller;
 
-import ifit.cluster.cassistant.domain.Conference;
+import ifit.cluster.cassistant.domain.Status;
 import ifit.cluster.cassistant.domain.Topic;
-import ifit.cluster.cassistant.repository.ConferenceRepository;
-import ifit.cluster.cassistant.service.ConferenceService;
 import ifit.cluster.cassistant.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,13 +14,11 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
-    @Autowired
-    private ConferenceService conferenceService;
-
     @GetMapping("/topics/{id}")
     public String getTopic(@PathVariable("id") Long topicId, Model model){
         Topic topic = topicService.getTopic(topicId);
         model.addAttribute("topic", topic);
+        model.addAttribute("questionStatuses", Status.values());
         return "topic";
     }
 
@@ -40,22 +36,15 @@ public class TopicController {
 
     @GetMapping("/{conferenceId}/topic")
     public String topicForm(@PathVariable("conferenceId") Long conferenceId ,Model model) {
-
         model.addAttribute("topic", new Topic());
         model.addAttribute("conferenceId" , conferenceId);
-
         return "topic_form";
     }
 
     @PostMapping("/{conferenceId}/topic")
     public String topicSubmit(@PathVariable("conferenceId") Long conferenceId
-            ,@ModelAttribute Topic topic , Model model) {
-
-        topic.setRate(0);
+            ,@ModelAttribute Topic topic) {
         topicService.saveTopic(topic, conferenceId);
-
-        model.addAttribute("topic", topic);
-
         return "redirect:/topics/"+topic.getId();
     }
 

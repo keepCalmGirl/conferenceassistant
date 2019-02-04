@@ -56,6 +56,13 @@ public class QuestionController {
         return "redirect:/topics/" + topicId;
     }
 
+    @PostMapping("/question/{questionId}/{status}")
+    public String changeQuestionStatus(@PathVariable("questionId") Long questionId
+            , @PathVariable("status") Status status){
+        questionService.updateStatus(questionId, status);
+        return "redirect:/topics/" + questionService.getQuestion(questionId).getTopic().getId();
+    }
+
 
 
 

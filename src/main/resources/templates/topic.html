@@ -1,33 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:text="${topic.name}">Topic</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body th:object="${topic}">
 <a th:href="|/${topic.conference.id_hash}|"><h1 th:utext="|Conference: *{conference.name}|"></h1></a>
-    <h2 th:utext="|Topic: *{name} by speaker *{speaker} at ${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:ss')}|"></h2>
-    <h2 > Summary:</h2>
-    <p th:utext="*{summary}"></p>
-    <p th:utext="|Rate: *{rate}|"></p>
+<h2 th:utext="|Topic: *{name} by speaker *{speaker} at ${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:ss')}|"></h2>
+<h2> Summary:</h2>
+<p th:utext="*{summary}"></p>
+<p th:utext="|Rate: *{rate}|"></p>
 <form method="post" th:action="@{|/topics/${topic.id}/like|}">
-    <button >Like</button>
+    <button>Like</button>
 </form>
 <form method="post" th:action="@{|/topics/${topic.id}/dislike|}">
-    <button >Dislike</button>
+    <button>Dislike</button>
 </form>
 
 <table>
     <thead>
     <tr>
-        <th> Question by </th>
-        <th> Text </th>
-        <th> Rate </th>
+        <th> Question by</th>
+        <th> Text</th>
+        <th> Rate</th>
     </tr>
     </thead>
     <tbody>
     <tr th:if="*{questions.isEmpty()}">
-        <td colspan="2"> No Questions Available </td>
+        <td colspan="2"> No Questions Available</td>
     </tr>
     <tr th:each="question : *{questions}">
         <td><span th:text="${question.email}"></span></td>
@@ -35,17 +41,36 @@
         <td><span th:text="${question.rate}"> Rate </span></td>
         <td>
             <form method="post" th:action="@{|/topics/${topic.id}/questions/${question.id}/like|}">
-                    <button>Like</button>
+                <button>Like</button>
             </form>
+        </td>
+        <td>
             <form method="post" th:action="@{|/topics/${topic.id}/questions/${question.id}/dislike|}">
-                    <button>Dislike</button>
+                <button>Dislike</button>
             </form>
+        </td>
+        <td>
+            <select th:onchange="|changeQuestionStatus(value, ${question.id})|">
+                <option th:each="status : ${questionStatuses}"
+                        th:value="${status}"
+                        th:text="${status.name}">
+                </option>
+            </select>
         </td>
     </tr>
     </tbody>
 </table>
-        <form action="#" th:action="|/topics/${topic.id}/question|" method="get">
-            <button><h5>Add new question</h5></button>
-        </form>
+<form action="#" th:action="|/topics/${topic.id}/question|" method="get">
+    <button><h5>Add new question</h5></button>
+</form>
+<script >
+    function changeQuestionStatus(value, questionId) {
+        $.ajax({
+            url: "/question/"+questionId+"/"+value,
+            type:"POST"
+        });
+        return false;
+    }
+</script>
 </body>
 </html>
