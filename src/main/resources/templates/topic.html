@@ -46,7 +46,6 @@
         </tbody>
     </table>
 
-
     <h2 th:utext="|Topic: ${topic.name} by speaker ${topic.speaker} at ${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:mm')}|"></h2>
     <h2> Summary:</h2>
     <p th:utext="${topic.summary}"></p>

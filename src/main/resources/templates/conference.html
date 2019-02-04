@@ -17,15 +17,12 @@
 
 <div class="container">
     <div th:include="header"></div>
-
     <div class="text-center" style="margin-top: 50px">
         <h1 th:utext="${conference.name}"></h1>
     </div>
-
     <table class="table table-hover">
         <thead>
         <tr>
-
             <th scope="col">Topic</th>
             <th scope="col">Speaker</th>
             <th scope="col">Summary</th>
@@ -47,9 +44,7 @@
     <form action="#" th:action="|${conference.id_hash}/topic/|" method="get">
         <button class="btn btn-outline-dark">Add new topic</button>
     </form>
-
 </div>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -62,6 +57,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-
 </body>
 </html>
