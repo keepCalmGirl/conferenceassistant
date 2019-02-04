@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new question</title>
+</head>
+<body>
+<h1>Question form</h1>
+<form action="#" th:action="|/topics/${topicId}/question|" th:object="${question}" method="post">
+    <p>Email: <input type="text" name="email" th:field="*{email}" /></p>
+    <p>Text: <input type="text" name="text" th:field="*{text}" /></p>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+</body>
+</html>

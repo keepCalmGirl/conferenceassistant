@@ -26,7 +26,7 @@ public class Topic {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date dateTime;
-    private Integer rate;
+    private Integer rate = 0;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
     @JsonManagedReference

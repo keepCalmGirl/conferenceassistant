@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new conference</title>
+</head>
+<body>
+<h1>Form</h1>
+<form action="#" th:action="|/conference|" th:object="${conference}" method="post">
+    <p>Name: <input type="text" name="name" th:field="*{name}" /></p>
+    <p>Info: <input type="text" name="info" th:field="*{info}" /></p>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+</body>
+</html>

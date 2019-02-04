@@ -46,7 +46,6 @@ public class CassistantApplication {
             Question question1 = new Question("kurvamat@mail.ua", "What java version is better?", topic1, 0, Status.NEW);
             Question question2 = new Question("haha@mail.ua", "Where is coffee from java beans produced?", topic1, 0, Status.NEW);
 
-
             conferenceRepository.save(conference);
             topicRepository.saveAll(Arrays.asList(topic1, topic2));
             questionRepository.saveAll(Arrays.asList(question1, question2));

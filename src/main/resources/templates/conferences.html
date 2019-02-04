@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Conferences</title>
 </head>
-<body>
-
+<body >
+<h1>Conference list</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Conference name</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:if="*{conferences.isEmpty()}">
+        <td colspan="2"> No Conferences Available </td>
+    </tr>
+    <tr th:each="conference : ${conferences}">
+        <td>
+            <a th:href="|/${conference.id_hash}|">
+            <h4 th:text="${conference.name}"></h4>
+        </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form action="#" th:action="|/conference|" method="get">
+    <button>Add new conference</button>
+</form>
 </body>
 </html>

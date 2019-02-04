@@ -12,10 +12,15 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Topic topic;
-    private Integer rate;
-    private Status status;
+    private Integer rate = 0;
+    private Status status = Status.NEW;
 
     public Question() {
+    }
+
+    public Question(String email, String text) {
+        this.email = email;
+        this.text = text;
     }
 
     public Question(String email, String text, Topic topic, Integer rate, Status status) {
@@ -24,6 +29,14 @@ public class Question {
         this.topic = topic;
         this.rate = rate;
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {

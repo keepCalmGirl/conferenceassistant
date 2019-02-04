@@ -7,4 +7,5 @@ import java.util.List;
 public interface ConferenceService {
     Conference getConference(Long conferenceId);
     List<Conference> getAllConferences();
+    Conference saveConference(Conference conference);
 }
