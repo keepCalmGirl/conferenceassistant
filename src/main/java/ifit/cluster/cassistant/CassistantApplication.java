@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 public class CassistantApplication {
