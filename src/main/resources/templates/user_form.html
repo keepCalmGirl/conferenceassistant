@@ -9,7 +9,7 @@
 </head>
 <body>
 <div th:include="header"></div>
-<form name="form" action="/users/submit" th:object="${user}" method="post">
+<form name="form" th:action="'/users/submit'" th:object="${user}" method="post">
     <table>
         <tr>
             <td>First name:</td>

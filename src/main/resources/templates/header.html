@@ -1,8 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" th:href="'/'">Home</a>
+    <a class="navbar-brand" th:href="'/users'">Users</a>
+    <div sec:authorize="!isAuthenticated()">
+        <a class="navbar-brand" th:href="@{/login}">Login</a>
+        <span class="navbar-brand">/</span>
+        <a class="navbar-brand" href="/users/form">Logon</a>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <a class="navbar-brand" sec:authentication="name" th:href="'/users/6'">Bob</a>
+        <a class="navbar-brand" href="/logout">Logout</a>
+    </div>
     <!--nav-->
 </nav>
 

@@ -3,6 +3,7 @@ package ifit.cluster.cassistant.controller;
 import ifit.cluster.cassistant.domain.User;
 import ifit.cluster.cassistant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @GetMapping("/users/{id}")
     public String getUser(@PathVariable("id") Long id, Model model){
-        Optional<User> userByEmail = userService.getUserById(id);
-        if (userByEmail.isPresent()){
-            model.addAttribute("user", userByEmail.get());
+        Optional<User> userById = userService.getUserById(id);
+        if (userById.isPresent()){
+            model.addAttribute("user", userById.get());
             return "profile";
         } else {
             return "redirect:/";
@@ -43,6 +47,7 @@ public class UserController {
 
     @PostMapping("/users/submit")
     public String userSubmit(@ModelAttribute User user, Model model) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         model.addAttribute("user", userService.saveUser(user));
         return "profile";
     }

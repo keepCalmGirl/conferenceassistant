@@ -14,6 +14,7 @@ public class User {
     private String lastName;
     private Role role = Role.USER;
     private String password;
+    private boolean enabled = true;
 
     public User(String email, String phone, String firstName, String lastName, Role role, String password) {
         this.email = email;
@@ -81,5 +82,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
