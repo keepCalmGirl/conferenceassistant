@@ -2,7 +2,6 @@ package ifit.cluster.cassistant.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 import java.util.List;
 

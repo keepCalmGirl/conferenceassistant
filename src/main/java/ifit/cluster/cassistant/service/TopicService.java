@@ -1,11 +1,14 @@
 package ifit.cluster.cassistant.service;
 
+import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
 
+import java.util.Optional;
+
 public interface TopicService {
-    Topic getTopic(Long topicId);
-    Integer incrementRate(Long topicId);
-    Integer decrementRate(Long topicId);
+    Optional<Topic> getTopic(Long topicId);
+    void incrementRate(Long topicId);
+    void decrementRate(Long topicId);
     boolean checkEmail(String email);
-    Topic saveTopic(Topic topic, Long conferenceId);
+    Topic saveTopic(Topic topic);
 }

@@ -1,25 +1,37 @@
 package ifit.cluster.cassistant.controller;
 
+import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Status;
 import ifit.cluster.cassistant.domain.Topic;
+import ifit.cluster.cassistant.service.ConferenceService;
 import ifit.cluster.cassistant.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
 
 @Controller
 public class TopicController {
 
+    private final TopicService topicService;
+    private final ConferenceService conferenceService;
+
     @Autowired
-    private TopicService topicService;
+    public TopicController(TopicService topicService, ConferenceService conferenceService) {
+        this.topicService = topicService;
+        this.conferenceService = conferenceService;
+    }
 
     @GetMapping("/topics/{id}")
     public String getTopic(@PathVariable("id") Long topicId, Model model){
-        Topic topic = topicService.getTopic(topicId);
-        model.addAttribute("topic", topic);
-        model.addAttribute("questionStatuses", Status.values());
-        return "topic";
+        Optional<Topic> optionalTopic = topicService.getTopic(topicId);
+        if (optionalTopic.isPresent()){
+            model.addAttribute("topic", optionalTopic.get());
+            model.addAttribute("questionStatuses", Status.values());
+            return "topic";
+        }
+        return "404";
     }
 
     @PostMapping("/topics/{id}/like")
@@ -44,8 +56,12 @@ public class TopicController {
     @PostMapping("/{conferenceId}/topic")
     public String topicSubmit(@PathVariable("conferenceId") Long conferenceId
             ,@ModelAttribute Topic topic) {
-        topicService.saveTopic(topic, conferenceId);
-        return "redirect:/topics/"+topic.getId();
+        Optional<Conference> conferenceOptional = conferenceService.getConference(conferenceId);
+        if (conferenceOptional.isPresent()){
+            topic.setConference(conferenceOptional.get());
+            topicService.saveTopic(topic);
+            return "redirect:/topics/"+topic.getId();
+        }
+        return "404";
     }
-
 }

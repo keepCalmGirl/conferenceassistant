@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface QuestionRepository extends CrudRepository<Question, Long> {
+
     @Modifying
     @Transactional
     @Query(value = "UPDATE question SET question.rate = question.rate + 1 WHERE question.id = :questionId", nativeQuery = true)

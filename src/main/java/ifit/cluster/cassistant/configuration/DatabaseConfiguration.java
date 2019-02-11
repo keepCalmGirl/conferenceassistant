@@ -12,7 +12,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -20,14 +19,16 @@ import java.util.Date;
 @Configuration
 public class DatabaseConfiguration {
 
-    @Autowired
-    private TopicRepository topicRepository;
+    private final TopicRepository topicRepository;
+    private final ConferenceRepository conferenceRepository;
+    private final QuestionRepository questionRepository;
 
     @Autowired
-    private ConferenceRepository conferenceRepository;
-
-    @Autowired
-    private QuestionRepository questionRepository;
+    public DatabaseConfiguration(TopicRepository topicRepository, ConferenceRepository conferenceRepository, QuestionRepository questionRepository) {
+        this.topicRepository = topicRepository;
+        this.conferenceRepository = conferenceRepository;
+        this.questionRepository = questionRepository;
+    }
 
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {

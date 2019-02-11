@@ -7,16 +7,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 public class ConferenceController {
 
+    private final ConferenceService conferenceService;
+
     @Autowired
-    private ConferenceService conferenceService;
+    public ConferenceController(ConferenceService conferenceService) {
+        this.conferenceService = conferenceService;
+    }
 
     @GetMapping("/{id}")
     public String getConference(@PathVariable("id") Long conferenceId, Model model){
-        model.addAttribute("conference", conferenceService.getConference(conferenceId));
-        return "conference";
+        Optional<Conference> conferenceOptional = conferenceService.getConference(conferenceId);
+        if (conferenceOptional.isPresent()){
+            model.addAttribute("conference", conferenceOptional.get());
+            return "conference";
+        }
+        return "404";
     }
 
     @GetMapping("/")
@@ -32,9 +42,8 @@ public class ConferenceController {
     }
 
     @PostMapping("/conference")
-    public String conferenceSubmit(@ModelAttribute Conference conference , Model model){
+    public String conferenceSubmit(@ModelAttribute Conference conference){
         conferenceService.saveConference(conference);
-        //model.addAttribute("conference" , conference);
         return "redirect:/"+conference.getId_hash();
     }
 }

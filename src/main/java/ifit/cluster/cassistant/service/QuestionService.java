@@ -3,13 +3,12 @@ package ifit.cluster.cassistant.service;
 import ifit.cluster.cassistant.domain.Question;
 import ifit.cluster.cassistant.domain.Status;
 
+import java.util.Optional;
+
 public interface QuestionService {
-
-    Question getQuestion(Long questionId);
-    Question saveQuestion(Question question, Long topicId);
-    Integer incrementRate(Long questionId);
-    Integer decrementRate(Long questionId);
+    Optional<Question> getQuestion(Long questionId);
+    Question saveQuestion(Question question);
+    void incrementRate(Long questionId);
+    void decrementRate(Long questionId);
     Boolean checkEmail(Long questionId, String email);
-    Status updateStatus(Long questionId, Status status);
-
 }

@@ -16,11 +16,15 @@ import java.util.Optional;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @GetMapping("/users/{id}")
     public String getUser(@PathVariable("id") Long id, Model model){

@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Topic</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Topic</title>
 </head>
 
 <body>
@@ -22,15 +18,15 @@
         <thead>
         <tr>
             <th scope="col">questions</th>
-            <th scope="col">status</th>
             <th scope="col">rate</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">status</th>
         </tr>
         </thead>
-
         <tbody>
         <tr th:each="question : ${topic.questions}">
             <td th:text="${question.text}"></td>
-            <td th:text="${question.status}"></td>
             <td th:text="${question.rate}"></td>
             <td>
                 <form method="post" th:action="@{|/topics/${topic.id}/questions/${question.id}/like|}">
@@ -42,31 +38,32 @@
                     <button class="btn btn-outline-danger">Dislike</button>
                 </form>
             </td>
-
             <td>
-                <select th:onchange="|changeQuestionStatus(value, ${question.id})|">
-                    <option th:each="status : ${questionStatuses}"
+                <select onchange="changeQuestionStatus()">
+                    <option th:each="status:${questionStatuses}"
                             th:value="${status}"
-                            th:text="${status.name}">
+                            th:text="${status.name}"
+                            th:selected="${status == question.status}">
                     </option>
                 </select>
             </td>
-
         </tr>
         </tbody>
     </table>
     <form action="#" th:action="|/topics/${topic.id}/question|" method="get">
         <button class="btn btn-outline-dark">Add new question</button>
     </form>
-    <script>
-        function changeQuestionStatus(value, questionId) {
-            $.ajax({
-                url: "/question/" + questionId + "/" + value,
-                type: "POST"
-            });
-            return false;
-        }
-    </script>
+    <button onclick="changeQuestionStatus()">send ajax</button>
+
 </div>
+<script type="text/javascript">
+    function changeQuestionStatus() {
+        $.ajax({
+            type:'POST',
+            url:"/question",
+            data: {"${_csrf.parameterName}" : "${_csrf.token}"}
+        })
+    }
+</script>
 </body>
 </html>
