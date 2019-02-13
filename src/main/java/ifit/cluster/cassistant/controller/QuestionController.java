@@ -38,13 +38,6 @@ public class QuestionController {
         return "redirect:/topics/"+topicId;
     }
 
-    @GetMapping("/topics/{topicId}/question")
-    public String questionForm(@PathVariable("topicId") Long topicId, Model model) {
-        model.addAttribute("question", new Question());
-        model.addAttribute("topicId", topicId);
-        return "question_form";
-    }
-
     @PostMapping("/topics/{topicId}/question")
     public String questionSubmit(@PathVariable("topicId") Long topicId, @ModelAttribute Question question, Model model) {
         Optional<Topic> topicOptional = topicService.getTopic(topicId);

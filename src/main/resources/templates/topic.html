@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -54,7 +55,7 @@
     </table>
     <form action="#" th:action="|/topics/${topic.id}/question|" th:object="${question}" method="post">
         <div>
-            <input type="hidden" id="email" th:field="*{email}">
+            <input type="hidden" id="email" th:id="email" th:name="email" th:value="${#authentication.name}">
             <textarea id="question-text" class="form-control" aria-label="Write your question:" placeholder="Write your question:" th:field="*{text}"></textarea>
         </div>
         <div class="float-right mt-2">
@@ -62,9 +63,6 @@
             <input class="btn btn-danger" type="reset" value="Reset" />
         </div>
     </form>
-    <!--<form action="#" th:action="|/topics/${topic.id}/question|" method="get">-->
-        <!--<button class="btn btn-outline-dark">Add new question</button>-->
-    <!--</form>-->
 </div>
 <script type="text/javascript">
     function changeQuestionStatus(questionId, status) {
