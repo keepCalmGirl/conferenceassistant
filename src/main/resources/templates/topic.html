@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -41,7 +41,7 @@
                 </form>
             </td>
             <td>
-                <select th:onchange="|changeQuestionStatus(${question.id}, value)|">
+                <select class="form-control" th:onchange="|changeQuestionStatus(${question.id}, value)|">
                     <option th:each="status:${questionStatuses}"
                             th:value="${status}"
                             th:text="${status.name}"
@@ -52,10 +52,19 @@
         </tr>
         </tbody>
     </table>
-    <form action="#" th:action="|/topics/${topic.id}/question|" method="get">
-        <button class="btn btn-outline-dark">Add new question</button>
+    <form action="#" th:action="|/topics/${topic.id}/question|" th:object="${question}" method="post">
+        <div>
+            <input type="hidden" id="email" th:field="*{email}">
+            <textarea id="question-text" class="form-control" aria-label="Write your question:" placeholder="Write your question:" th:field="*{text}"></textarea>
+        </div>
+        <div class="float-right mt-2">
+            <input class="btn btn-success" type="submit" value="Add new question" />
+            <input class="btn btn-danger" type="reset" value="Reset" />
+        </div>
     </form>
-
+    <!--<form action="#" th:action="|/topics/${topic.id}/question|" method="get">-->
+        <!--<button class="btn btn-outline-dark">Add new question</button>-->
+    <!--</form>-->
 </div>
 <script type="text/javascript">
     function changeQuestionStatus(questionId, status) {

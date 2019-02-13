@@ -45,8 +45,8 @@ public class QuestionController {
         return "question_form";
     }
 
-    @PostMapping("/topics/{id}/question")
-    public String questionSubmit(@PathVariable("id") Long topicId, @ModelAttribute Question question, Model model) {
+    @PostMapping("/topics/{topicId}/question")
+    public String questionSubmit(@PathVariable("topicId") Long topicId, @ModelAttribute Question question, Model model) {
         Optional<Topic> topicOptional = topicService.getTopic(topicId);
         if (topicOptional.isPresent()){
             question.setTopic(topicOptional.get());

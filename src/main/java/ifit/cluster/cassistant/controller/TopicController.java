@@ -1,6 +1,7 @@
 package ifit.cluster.cassistant.controller;
 
 import ifit.cluster.cassistant.domain.Conference;
+import ifit.cluster.cassistant.domain.Question;
 import ifit.cluster.cassistant.domain.Status;
 import ifit.cluster.cassistant.domain.Topic;
 import ifit.cluster.cassistant.service.ConferenceService;
@@ -29,6 +30,7 @@ public class TopicController {
         if (optionalTopic.isPresent()){
             model.addAttribute("topic", optionalTopic.get());
             model.addAttribute("questionStatuses", Status.values());
+            model.addAttribute("question", new Question());
             return "topic";
         }
         return "404";
