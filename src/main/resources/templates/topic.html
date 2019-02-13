@@ -23,27 +23,28 @@
             <th scope="col">#</th>
             <th scope="col" th:text="|Question (Total:${topic.questions.size()})|">questions</th>
             <th scope="col">Rate</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col" sec:authorize="!hasAnyAuthority('ADMIN','0','MODERATOR','1')">Status</th>
+            <th scope="col" sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')">Status</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="question,iter : ${topic.questions}">
             <td th:text="${iter.index}+1"></td>
             <td th:text="${question.text}"></td>
-            <td th:text="${question.rate}"></td>
             <td>
+                <div class="btn-group btn-group-sm" role="group">
                 <form method="post" th:action="@{|/topics/${topic.id}/questions/${question.id}/like|}">
-                    <button class="btn btn-outline-success">Like</button>
+                    <button class="btn btn-outline-success">
+                        <span class="badge badge-success" th:text="${question.rate}">0</span> Like
+                    </button>
                 </form>
-            </td>
-            <td>
                 <form method="post" th:action="@{|/topics/${topic.id}/questions/${question.id}/dislike|}">
-                    <button class="btn btn-outline-danger">Dislike</button>
+                    <button class="btn btn-outline-danger">
+                        <span class="badge badge-danger" th:text="${question.rate}">0</span> Dislike
+                    </button>
                 </form>
+                </div>
             </td>
-            <td sec:authorize="!hasAnyAuthority('ADMIN','0','MODERATOR','1')">
+            <td sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')">
                 <select class="form-control" th:onchange="|changeQuestionStatus(${question.id}, value)|">
                     <option th:each="status:${questionStatuses}"
                             th:value="${status}"

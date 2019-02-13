@@ -1,7 +1,6 @@
 package ifit.cluster.cassistant.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 
