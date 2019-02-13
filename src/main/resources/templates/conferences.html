@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
@@ -30,17 +30,8 @@
     </tr>
     </tbody>
 </table>
-<!--<form  action="#" th:action="|/conference|" method="get">-->
-    <!--<button>Add new conference</button>-->
-<!--</form>-->
-
-<form action="#" th:if="a" onsubmit="f(sec:authorize='isAuthenticated()')">
+<form sec:authorize="hasAuthority('ADMIN')" action="#" th:action="|/conference|" method="get">
     <button>Add new conference</button>
 </form>
-<script>
-    function f(isAutorized) {
-        alert(isAutorized);
-    }
-</script>
 </body>
 </html>

@@ -38,6 +38,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .access("hasAnyAuthority('ADMIN', 'MODERATOR', 'USER')")
                 .antMatchers("/users")
                 .access("hasAnyAuthority('ADMIN', 'MODERATOR')")
+                .antMatchers("/conference")
+                .access("hasAnyAuthority('ADMIN')")
                 .and()
                 .formLogin()
                 .permitAll()
