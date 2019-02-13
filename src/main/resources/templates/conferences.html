@@ -34,13 +34,8 @@
     <!--<button>Add new conference</button>-->
 <!--</form>-->
 
-<form action="#" th:if="a" onsubmit="f(sec:authorize='isAuthenticated()')">
+<form action="#"th:action="|/conference|" sec:authorize="hasRole('MODERATOR') || hasRole('ADMIN')" >
     <button>Add new conference</button>
 </form>
-<script>
-    function f(isAutorized) {
-        alert(isAutorized);
-    }
-</script>
 </body>
 </html>

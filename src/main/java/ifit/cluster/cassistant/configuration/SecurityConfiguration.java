@@ -77,13 +77,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         PasswordEncoder encoder = passwordEncoder();
         auth
                 .inMemoryAuthentication()
-                .withUser("user")
-                .password(encoder.encode("password"))
-                .authorities("MODERATOR")
+                .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
                 .and()
-                .withUser("oleh")
-                .password(encoder.encode("123"))
-                .authorities("ADMIN");
+                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
         auth
                 .jdbcAuthentication()
                 .dataSource(dataSource)
