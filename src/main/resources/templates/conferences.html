@@ -30,7 +30,7 @@
     </tr>
     </tbody>
 </table>
-<form sec:authorize="hasAnyAuthority('ADMIN', 0)" action="#" th:action="|/conference|" method="get">
+<form sec:authorize="hasAnyAuthority('ADMIN', '0')" action="#" th:action="|/conference|" method="get">
     <button>Add new conference</button>
 </form>
 </body>
