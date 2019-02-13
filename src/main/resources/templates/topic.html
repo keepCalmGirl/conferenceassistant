@@ -7,6 +7,8 @@
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Topic</title>
 </head>
 
@@ -17,11 +19,11 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">questions</th>
-            <th scope="col">rate</th>
+            <th scope="col" th:text="|Question (Total:${topic.questions.size()})|">questions</th>
+            <th scope="col">Rate</th>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th scope="col">status</th>
+            <th scope="col">Status</th>
         </tr>
         </thead>
         <tbody>
@@ -39,7 +41,7 @@
                 </form>
             </td>
             <td>
-                <select onchange="changeQuestionStatus()">
+                <select th:onchange="|changeQuestionStatus(${question.id}, value)|">
                     <option th:each="status:${questionStatuses}"
                             th:value="${status}"
                             th:text="${status.name}"
@@ -53,17 +55,26 @@
     <form action="#" th:action="|/topics/${topic.id}/question|" method="get">
         <button class="btn btn-outline-dark">Add new question</button>
     </form>
-    <button onclick="changeQuestionStatus()">send ajax</button>
 
 </div>
 <script type="text/javascript">
-    function changeQuestionStatus() {
+    function changeQuestionStatus(questionId, status) {
+        let token = $('#_csrf').attr('content');
+        let header = $('#_csrf_header').attr('content');
         $.ajax({
             type:'POST',
-            url:"/question",
-            data: {"${_csrf.parameterName}" : "${_csrf.token}"}
-        })
-    }
+            url:"/cqs",
+            dataType: "application/json",
+            data: JSON.stringify({
+                "id": questionId,
+                "status":status
+            }),
+            contentType: "application/json",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        });
+    };
 </script>
 </body>
 </html>

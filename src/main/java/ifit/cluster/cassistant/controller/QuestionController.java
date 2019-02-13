@@ -1,11 +1,11 @@
 package ifit.cluster.cassistant.controller;
 
 import ifit.cluster.cassistant.domain.Question;
-import ifit.cluster.cassistant.domain.Status;
 import ifit.cluster.cassistant.domain.Topic;
 import ifit.cluster.cassistant.service.QuestionService;
 import ifit.cluster.cassistant.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -57,24 +57,12 @@ public class QuestionController {
         return "404";
     }
 
-//    @PostMapping("/question/{questionId}/{status}")
-//    public void changeQuestionStatus(@PathVariable("questionId") Long questionId
-//            , @PathVariable("status") Status status){
-//        System.out.println(status);
-////        Optional<Question> question = questionService.getQuestion(questionId);
-////        question.ifPresent(question1 -> question1.setStatus(status));
-////        System.out.println(status);
-////        Question question = questionService.getQuestion(questionId)
-//
-//
-////        questionService.updateStatus(questionId, status);
-////        return "redirect:/topics/" + q.getTopic().getId();
-//    }
-
-    @PostMapping(value = "/question")
-    public @ResponseBody String changeStatus(){
-        String hahahha = "HAHAHHA";
-        System.out.println(hahahha);
-        return hahahha;
+    @PostMapping(value = "/cqs",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void changeStatus(@RequestBody Question question){
+        Optional<Question> questionOptional = questionService.getQuestion(question.getId());
+        questionOptional.ifPresent(q -> q.setStatus(question.getStatus()));
+        questionOptional.ifPresent(questionService::saveQuestion);
     }
 }

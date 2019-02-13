@@ -1,5 +1,8 @@
 package ifit.cluster.cassistant.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +14,7 @@ public class Question {
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Topic topic;
     private Integer rate = 0;
     private Status status = Status.NEW;
