@@ -1,6 +1,8 @@
 package ifit.cluster.cassistant.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -16,13 +18,26 @@ public class User {
     private String password;
     private boolean enabled = true;
 
-    public User(String email, String phone, String firstName, String lastName, Role role, String password) {
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(
+            name = "question_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id"))
+    private Set<Question> likedQuestions = new HashSet<>();
+
+    public User(String email, String phone, String firstName, String lastName, Role role, String password, boolean enabled, Set<Question> likedQuestions) {
         this.email = email;
         this.phone = phone;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
         this.password = password;
+        this.enabled = enabled;
+        this.likedQuestions = likedQuestions;
     }
 
     public User() {
@@ -90,5 +105,13 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<Question> getLikedQuestions() {
+        return likedQuestions;
+    }
+
+    public void setLikedQuestions(Set<Question> likedQuestions) {
+        this.likedQuestions = likedQuestions;
     }
 }

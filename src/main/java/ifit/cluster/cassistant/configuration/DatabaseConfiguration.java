@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 
 @Configuration
 public class DatabaseConfiguration {
@@ -39,8 +40,8 @@ public class DatabaseConfiguration {
             Topic topic1 = new Topic(conference, "topic1", "java base", "hz", new Date(), 0);
             Topic topic2 = new Topic(conference, "topic2", "java core", "hz", new Date(), 0);
 
-            Question question1 = new Question("kurvamat@mail.ua", "What java version is better?", topic1, 0, Status.NEW);
-            Question question2 = new Question("haha@mail.ua", "Where is coffee from java beans produced?", topic1, 0, Status.NEW);
+            Question question1 = new Question("kurvamat@mail.ua", "What java version is better?", topic1, 0, Status.NEW, new HashSet<>());
+            Question question2 = new Question("haha@mail.ua", "Where is coffee from java beans produced?", topic1, 0, Status.NEW, new HashSet<>());
 
             conferenceRepository.save(conference);
             topicRepository.saveAll(Arrays.asList(topic1, topic2));

@@ -44,6 +44,13 @@
                 </form>
                 </div>
             </td>
+            <td>
+                <button class="btn btn-outline-primary" th:value="${#authentication.name}"
+                        th:onclick="|like(${topic.id},${question.id},value)|">
+                        <!--th:onclick="|like('${topic.id}','${question.id}', '${#authentication.name}')|">-->
+                    <span class="badge badge-success" th:text="${question.rate}">0</span> Like
+                </button>
+            </td>
             <td sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')">
                 <select class="form-control" th:onchange="|changeQuestionStatus(${question.id}, value)|">
                     <option th:each="status:${questionStatuses}"
@@ -68,9 +75,9 @@
     </form>
 </div>
 <script type="text/javascript">
+    let token = $('#_csrf').attr('content');
+    let header = $('#_csrf_header').attr('content');
     function changeQuestionStatus(questionId, status) {
-        let token = $('#_csrf').attr('content');
-        let header = $('#_csrf_header').attr('content');
         $.ajax({
             type:'POST',
             url:"/cqs",
@@ -78,6 +85,25 @@
             data: JSON.stringify({
                 "id": questionId,
                 "status":status
+            }),
+            contentType: "application/json",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        });
+    };
+    function like(topicId, questionId, email) {
+        $.ajax({
+            type:'POST',
+            url:"/topics/"+topicId+"/questions/like-new",
+            dataType: "application/json",
+            data: JSON.stringify({
+                "id": questionId,
+                "likes":[
+                    {
+                        "email":email
+                    }
+                ]
             }),
             contentType: "application/json",
             beforeSend: function(xhr) {

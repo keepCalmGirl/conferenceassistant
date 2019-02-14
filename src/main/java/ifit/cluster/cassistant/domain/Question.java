@@ -3,6 +3,8 @@ package ifit.cluster.cassistant.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Question {
@@ -18,6 +20,14 @@ public class Question {
     private Integer rate = 0;
     private Status status = Status.NEW;
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "likedQuestions")
+    private Set<User> likes = new HashSet<>();
+
     public Question() {
     }
 
@@ -26,12 +36,13 @@ public class Question {
         this.text = text;
     }
 
-    public Question(String email, String text, Topic topic, Integer rate, Status status) {
+    public Question(String email, String text, Topic topic, Integer rate, Status status, Set<User> likes) {
         this.email = email;
         this.text = text;
         this.topic = topic;
         this.rate = rate;
         this.status = status;
+        this.likes = likes;
     }
 
     public Long getId() {
@@ -80,5 +91,13 @@ public class Question {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
     }
 }
