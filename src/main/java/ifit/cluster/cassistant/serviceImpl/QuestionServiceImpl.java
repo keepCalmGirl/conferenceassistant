@@ -1,9 +1,7 @@
 package ifit.cluster.cassistant.serviceImpl;
 
 import ifit.cluster.cassistant.domain.Question;
-import ifit.cluster.cassistant.domain.Status;
 import ifit.cluster.cassistant.repository.QuestionRepository;
-import ifit.cluster.cassistant.repository.TopicRepository;
 import ifit.cluster.cassistant.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,16 +26,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question saveQuestion(Question question){
         return questionRepository.save(question);
-    }
-
-    @Override
-    public void incrementRate(Long questionId){
-        questionRepository.incrementRate(questionId);
-    }
-
-    @Override
-    public void decrementRate(Long questionId) {
-        questionRepository.decrementRate(questionId);
     }
 
     @Override

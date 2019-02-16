@@ -16,43 +16,36 @@
 <body>
 <div class="container">
     <div th:include="header"></div>
-
+    <h1 class="text-center" th:text="${topic.name}">Topic name</h1>
+    <h4 th:text="${topic.summary}" class="">Topic summary</h4>
     <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col" th:text="|Question (Total:${topic.questions.size()})|">questions</th>
-            <th scope="col">Rate</th>
-            <th scope="col" sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')">Status</th>
+            <th class="text-center"
+                style="width: 10%"
+                scope="col">Rate</th>
+            <th class="text-center"
+                style="width: 15%"
+                scope="col"
+                sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')">Status</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="question,iter : ${topic.questions}">
+        <!--<tr th:each="question,iter : ${#lists.sort(topic.questions)}">-->
             <td th:text="${iter.index}+1"></td>
             <td th:text="${question.text}"></td>
-            <td>
-                <div class="btn-group btn-group-sm" role="group">
-                <form method="post" th:action="@{|/topics/${topic.id}/questions/${question.id}/like|}">
-                    <button class="btn btn-outline-success">
-                        <span class="badge badge-success" th:text="${question.rate}">0</span> Like
-                    </button>
-                </form>
-                <form method="post" th:action="@{|/topics/${topic.id}/questions/${question.id}/dislike|}">
-                    <button class="btn btn-outline-danger">
-                        <span class="badge badge-danger" th:text="${question.rate}">0</span> Dislike
-                    </button>
-                </form>
-                </div>
-            </td>
-            <td>
-                <button class="btn btn-outline-primary" th:value="${#authentication.name}"
-                        th:onclick="|like(${topic.id},${question.id},value)|">
-                        <!--th:onclick="|like('${topic.id}','${question.id}', '${#authentication.name}')|">-->
-                    <span class="badge badge-success" th:text="${question.rate}">0</span> Like
+            <td class="text-center">
+                <button th:classappend="${question.hasLike(#authentication.name)} ? 'btn btn-secondary btn-sm' : 'btn btn-primary btn-sm'"
+                        th:value="${#authentication.name}"
+                        th:onclick="|like(${question.id},value)|">
+                    <span id="like-button" class="badge badge-light" th:text="${question.likes.size()}">0</span> Like
                 </button>
             </td>
             <td sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')">
-                <select class="form-control" th:onchange="|changeQuestionStatus(${question.id}, value)|">
+                <select class="form-control form-control-sm" th:onchange="|changeQuestionStatus(${question.id}, value)|">
                     <option th:each="status:${questionStatuses}"
                             th:value="${status}"
                             th:text="${status.name}"
@@ -81,22 +74,22 @@
         $.ajax({
             type:'POST',
             url:"/cqs",
-            dataType: "application/json",
+            contentType: "application/json",
             data: JSON.stringify({
                 "id": questionId,
                 "status":status
             }),
-            contentType: "application/json",
+            dataType: "application/json",
             beforeSend: function(xhr) {
                 xhr.setRequestHeader(header, token);
             }
         });
-    };
-    function like(topicId, questionId, email) {
+    }
+    function like(questionId, email) {
         $.ajax({
             type:'POST',
-            url:"/topics/"+topicId+"/questions/like-new",
-            dataType: "application/json",
+            url:"/like/question",
+            contentType: "application/json",
             data: JSON.stringify({
                 "id": questionId,
                 "likes":[
@@ -105,12 +98,13 @@
                     }
                 ]
             }),
-            contentType: "application/json",
+            dataType: "text",
             beforeSend: function(xhr) {
                 xhr.setRequestHeader(header, token);
             }
         });
-    };
+        location.reload();
+    }
 </script>
 </body>
 </html>

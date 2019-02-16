@@ -18,15 +18,7 @@ public class User {
     private String password;
     private boolean enabled = true;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(
-            name = "question_like",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "question_id"))
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "likes")
     private Set<Question> likedQuestions = new HashSet<>();
 
     public User(String email, String phone, String firstName, String lastName, Role role, String password, boolean enabled, Set<Question> likedQuestions) {

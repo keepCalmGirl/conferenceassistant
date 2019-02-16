@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 //                .antMatchers("**")
 //                .permitAll()
-                .antMatchers("/topics/**/questions/**", "/topics/**/question")
+                .antMatchers("/like/**", "/topics/**/question")
                 .access("!isAnonymous()")
                 .antMatchers("/users/profile")
                 .access("hasAnyAuthority('ADMIN', 'MODERATOR', 'USER')")

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class Topic {
     private Conference conference;
 
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String summary;
     private String speaker;
 
@@ -30,7 +32,7 @@ public class Topic {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
     @JsonManagedReference
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
 
     public Topic(Conference conference, String name, String summary, String speaker, Date dateTime, Integer rate, List<Question> questions
     ) {

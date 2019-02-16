@@ -3,11 +3,12 @@ package ifit.cluster.cassistant.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Question {
+public class Question implements Comparator<Question>, Comparable<Question> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -17,30 +18,28 @@ public class Question {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     private Topic topic;
-    private Integer rate = 0;
     private Status status = Status.NEW;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            },
-            mappedBy = "likedQuestions")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "question_like",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> likes = new HashSet<>();
 
     public Question() {
     }
 
-    public Question(String email, String text) {
-        this.email = email;
-        this.text = text;
-    }
-
-    public Question(String email, String text, Topic topic, Integer rate, Status status, Set<User> likes) {
+    public Question(String email, String text, Topic topic) {
         this.email = email;
         this.text = text;
         this.topic = topic;
-        this.rate = rate;
+    }
+
+    public Question(String email, String text, Topic topic, Status status, Set<User> likes) {
+        this.email = email;
+        this.text = text;
+        this.topic = topic;
         this.status = status;
         this.likes = likes;
     }
@@ -77,14 +76,6 @@ public class Question {
         this.topic = topic;
     }
 
-    public Integer getRate() {
-        return rate;
-    }
-
-    public void setRate(Integer rate) {
-        this.rate = rate;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -99,5 +90,19 @@ public class Question {
 
     public void setLikes(Set<User> likes) {
         this.likes = likes;
+    }
+
+    public boolean hasLike(String email) {
+        return likes.stream().anyMatch(user -> user.getEmail().equals(email));
+    }
+
+    @Override
+    public int compare(Question o1, Question o2) {
+        return Integer.compare(o1.likes.size(), o2.likes.size());
+    }
+
+    @Override
+    public int compareTo(Question o) {
+        return likes.size()-o.likes.size();
     }
 }
