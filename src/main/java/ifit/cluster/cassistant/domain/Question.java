@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Question implements Comparator<Question>, Comparable<Question> {
+public class Question implements Comparable<Question> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -97,12 +97,7 @@ public class Question implements Comparator<Question>, Comparable<Question> {
     }
 
     @Override
-    public int compare(Question o1, Question o2) {
-        return Integer.compare(o1.likes.size(), o2.likes.size());
-    }
-
-    @Override
     public int compareTo(Question o) {
-        return likes.size()-o.likes.size();
+        return o.likes.size()-likes.size();
     }
 }
