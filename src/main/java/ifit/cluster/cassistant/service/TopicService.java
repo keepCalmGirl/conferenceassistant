@@ -1,6 +1,5 @@
 package ifit.cluster.cassistant.service;
 
-import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
 
 import java.util.Optional;
@@ -10,5 +9,6 @@ public interface TopicService {
     void incrementRate(Long topicId);
     void decrementRate(Long topicId);
     boolean checkEmail(String email);
+    @SuppressWarnings("UnusedReturnValue")
     Topic saveTopic(Topic topic);
 }

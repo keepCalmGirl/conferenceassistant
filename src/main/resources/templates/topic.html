@@ -15,10 +15,9 @@
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Topic</title>
 </head>
-
+<header th:include="header"></header>
 <body>
 <div class="container">
-    <div th:include="header"></div>
     <h1 class="text-center" th:text="${topic.name}">Topic name</h1>
     <h4 th:text="${topic.summary}">Topic summary</h4>
     <table class="table table-hover">

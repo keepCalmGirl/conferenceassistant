@@ -2,19 +2,133 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" th:href="'/'">Home</a>
-    <a class="navbar-brand" th:href="'/users'">Users</a>
-    <div sec:authorize="!isAuthenticated()">
-        <a class="navbar-brand" th:href="@{/login}">Login</a>
-        <span class="navbar-brand">/</span>
-        <a class="navbar-brand" href="/users/form">Logon</a>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" th:href="'/'">Confass</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="'/'">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="'/'">Conferences</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="'/1'">Current conference</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="'/users'">Users</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+            <!--<li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>-->
+            <li sec:authorize="isAuthenticated()" class="dropdown order-1">
+                <!--<form action="/logout">-->
+                    <!--<a class="navbar-brand" sec:authentication="name" th:href="'/users/6'">Bob</a>-->
+                    <!--<button type="submit" id="sign-out" class="btn btn-outline-danger">Sign out</button>-->
+                <!--</form>-->
+                <a class="navbar-brand" sec:authentication="name" data-toggle="dropdown">Bob <span class="caret"></span></a>
+                <ul class="dropdown-menu dropdown-menu-right mt-2">
+                    <li class="px-2 py-2">
+                        <a class="dropdown-item" href="users/6">My profile</a>
+                        <div class="dropdown-divider"></div>
+                        <form class="form" role="form" action="/logout">
+                            <!--<div class="form-group">-->
+                                <!--<input id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<input id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="text" required="">-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <button type="submit" id="sign-out" class="btn btn-danger btn-block">Sign out</button>
+                            </div>
+                            <!--<div class="form-group text-center">-->
+                                <!--<small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>-->
+                            <!--</div>-->
+                        </form>
+                    </li>
+                </ul>
+            </li>
+            <li sec:authorize="!isAuthenticated()" class="dropdown order-1">
+                <!--<a class="navbar-brand" th:href="@{/login}">Login</a>-->
+                <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right mt-2">
+                    <li class="px-3 py-2">
+                        <!--<a class="navbar-brand" th:href="@{/login}">Login</a>-->
+                        <!--<form class="form" role="form" th:action="@{'/login'}">-->
+                            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<input id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<input id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="text" required="">&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--<div class="form-group">-->
+                                <!--<button type="submit" id="sign-in" class="btn btn-primary btn-block">Sign in</button>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;<div class="form-group text-center">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--</form>-->
+                        <form>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="form-email" placeholder="email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="form-password" placeholder="Password">
+                            </div>
+                            <!--<div class="form-check">-->
+                            <!--<input type="checkbox" class="form-check-input" id="dropdownCheck">-->
+                            <!--<label class="form-check-label" for="dropdownCheck">-->
+                            <!--Remember me-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <button type="submit" id="sign-in" class="btn btn-primary btn-block">Sign in</button>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        </form>
+                        <a class="dropdown-item" href="/login">Log in</a>
+                        <form class="form" role="form" action="/users/form">
+                            <button type="submit" id="sign-up" class="btn btn-success btn-block">Sign up</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!--<form class="form-inline my-2 my-lg-0">-->
+            <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+            <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+        <!--</form>-->
     </div>
-    <div sec:authorize="isAuthenticated()">
-        <a class="navbar-brand" sec:authentication="name" th:href="'/users/6'">Bob</a>
-        <a class="navbar-brand" href="/logout">Logout</a>
-    </div>
-    <!--nav-->
+
 </nav>
+
+<!--<nav class="navbar navbar-dark bg-dark">-->
+    <!--<div sec:authorize="!isAuthenticated()">-->
+        <!--<a class="navbar-brand" th:href="@{/login}">Login</a>-->
+        <!--<span class="navbar-brand">/</span>-->
+        <!--<a class="navbar-brand" href="/users/form">Logon</a>-->
+    <!--</div>-->
+    <!--<div sec:authorize="isAuthenticated()">-->
+        <!--<a class="navbar-brand" sec:authentication="name" th:href="'/users/6'">Bob</a>-->
+        <!--<a class="navbar-brand" href="/logout">Logout</a>-->
+    <!--</div>-->
+
+
+
+<!--</nav>-->
+
+<style>
+    .dropdown-menu {
+        width: 300px !important;
+        /*height: 400px !important;*/
+    }
+</style>
 
 </html>

@@ -1,8 +1,6 @@
 package ifit.cluster.cassistant.serviceImpl;
 
-import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
-import ifit.cluster.cassistant.repository.ConferenceRepository;
 import ifit.cluster.cassistant.repository.TopicRepository;
 import ifit.cluster.cassistant.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface ConferenceService {
     Optional<Conference> getConference(Long conferenceId);
     List<Conference> getAllConferences();
+    @SuppressWarnings("UnusedReturnValue")
     Conference saveConference(Conference conference);
 }
