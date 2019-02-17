@@ -24,8 +24,11 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col" th:text="|Question (Total:${topic.questions.size()})|">questions</th>
+            <th scope="col"
+                style="width: 5%">#</th>
+            <th scope="col"
+                style="width: 70%"
+                th:text="|Question (Total:${topic.questions.size()})|">questions</th>
             <th class="text-center"
                 style="width: 10%"
                 scope="col">Rate</th>
