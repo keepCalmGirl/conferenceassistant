@@ -1,6 +1,8 @@
 package ifit.cluster.cassistant.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -16,6 +18,9 @@ public class User {
     private String password;
     private boolean enabled = true;
 
+    @ManyToMany(fetch = FetchType.LAZY , mappedBy = "likes")
+    private Set<Topic> likedTopics = new HashSet<>();
+
     public User(String email, String phone, String firstName, String lastName, Role role, String password) {
         this.email = email;
         this.phone = phone;
@@ -26,6 +31,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public Set<Topic> getLikedTopics() {
+        return likedTopics;
+    }
+
+    public void setLikedTopics(Set<Topic> likedTopics) {
+        this.likedTopics = likedTopics;
     }
 
     public Long getId() {

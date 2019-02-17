@@ -7,11 +7,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
-public class Topic {
+public class Topic implements Comparable<Topic> {
     @Id
     @GeneratedValue
     private Long id;
@@ -24,36 +26,52 @@ public class Topic {
     private String name;
     private String summary;
     private String speaker;
+    private String image;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date dateTime;
-    private Integer rate = 0;
+
+    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "topic_like",
+            joinColumns = @JoinColumn(name = "topic_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> likes = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic")
     @JsonManagedReference
     private List<Question> questions;
 
-    public Topic(Conference conference, String name, String summary, String speaker, Date dateTime, Integer rate, List<Question> questions
-    ) {
+    public Topic(Conference conference, String name, String summary, String speaker, String image, Date dateTime, Set<User> likes, List<Question> questions) {
         this.conference = conference;
         this.name = name;
         this.summary = summary;
         this.speaker = speaker;
+        this.image = image;
         this.dateTime = dateTime;
-        this.rate = rate;
+        this.likes = likes;
         this.questions = questions;
     }
 
-    public Topic(Conference conference, String name, String summary, String speaker, Date dateTime, Integer rate) {
+    public Topic(Conference conference, String name, String summary, String speaker, Date dateTime) {
         this.conference = conference;
         this.name = name;
         this.summary = summary;
         this.speaker = speaker;
         this.dateTime = dateTime;
-        this.rate = rate;
     }
 
     public Topic() {
+    }
+
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Long getId() {
@@ -104,12 +122,21 @@ public class Topic {
         this.dateTime = dateTime;
     }
 
-    public Integer getRate() {
-        return rate;
+    public Set<User> getLikes() {
+        return likes;
     }
 
-    public void setRate(Integer rate) {
-        this.rate = rate;
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
+    }
+
+    public boolean hasLike(String email){
+        return likes.stream().anyMatch(user -> user.getEmail().equals(email));
+    }
+
+    @Override
+    public int compareTo(Topic t){
+        return t.likes.size()-likes.size();
     }
 
     public List<Question> getQuestions() {

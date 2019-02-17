@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-maxlength/1.7.0/bootstrap-maxlength.min.js"></script>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Conference</title>
-    <script>
-        function openWindow(id) {
-            window.location.href = "/topics/" + id;
-        }
-    </script>
 </head>
 <body>
 
 <div class="container">
     <div th:include="header"></div>
-    <div class="text-center" style="margin-top: 50px">
         <h1 th:utext="${conference.name}"></h1>
-    </div>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -31,31 +31,56 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="topic : ${conference.topic}" th:onclick="'openWindow('+${topic.id}+');'">
-            <td th:text="${topic.name}"></td>
+        <tr th:each="topic : ${conference.topic}" >
+            <td th:href="'/topics/'+${topic.id}" th:text="${topic.name}"></td>
             <td th:text="${topic.speaker}"></td>
             <td th:text="${topic.summary}"></td>
             <td th:text="${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:mm')}"></td>
-            <td th:text="${topic.rate}"></td>
+            <td class="text-center">
+                <button th:classappend="${topic.hasLike(#authentication.name)} ? 'btn btn-secondary btn-sm' : 'btn btn-primary btn-sm'"
+                        th:value="${#authentication.name}"
+                        th:onclick="|like(${topic.id},value)|">
+                    <span id="like-button" class="badge badge-light" th:text="${topic.likes.size()}">0</span> Like
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <form action="#" th:action="|${conference.id_hash}/topic/|" method="get">
+
+
+    <form sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')" action="#"  th:action="|${conference.id_hash}/topic/|" method="get">
         <button class="btn btn-outline-dark">Add new topic</button>
     </form>
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
+
 </body>
+    <script type="text/javascript">
+        let token = $('#_csrf').attr('content');
+        let header = $('#_csrf_header').attr('content');
+
+        function like(topicId, email) {
+            $.ajax({
+                type:'POST',
+                url:"/like/topic",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "id":topicId ,
+                    "likes":[
+                        {
+                            "email":email
+                        }
+                    ]
+                }),
+                dataType: "text",
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                }
+            });
+            setTimeout(function(){
+                window.location.reload(true)
+            }, 20);
+        }
+    </script>
 </html>

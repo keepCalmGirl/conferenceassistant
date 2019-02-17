@@ -36,8 +36,8 @@ public class DatabaseConfiguration {
         return args -> {
             Conference conference = new Conference("Confer1", "Java");
 
-            Topic topic1 = new Topic(conference, "topic1", "java base", "hz", new Date(), 0);
-            Topic topic2 = new Topic(conference, "topic2", "java core", "hz", new Date(), 0);
+            Topic topic1 = new Topic(conference, "topic1", "java base", "hz", new Date());
+            Topic topic2 = new Topic(conference, "topic2", "java core", "hz", new Date());
 
             Question question1 = new Question("kurvamat@mail.ua", "What java version is better?", topic1, 0, Status.NEW);
             Question question2 = new Question("haha@mail.ua", "Where is coffee from java beans produced?", topic1, 0, Status.NEW);
