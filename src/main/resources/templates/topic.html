@@ -2,11 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-maxlength/1.7.0/bootstrap-maxlength.min.js"></script>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -58,10 +61,27 @@
         </tr>
         </tbody>
     </table>
-    <form action="#" th:action="|/topics/${topic.id}/question|" th:object="${question}" method="post">
+    <form action="#"
+          th:action="|/topics/${topic.id}/question|"
+          th:object="${question}"
+          method="post"
+          class="needs-validation">
         <div>
-            <input type="hidden" id="email" th:id="email" th:name="email" th:value="${#authentication.name}">
-            <textarea id="question-text" class="form-control" aria-label="Write your question:" placeholder="Write your question:" th:field="*{text}"></textarea>
+            <input type="hidden"
+                   id="email"
+                   th:id="email"
+                   th:name="email"
+                   th:value="${#authentication.name}">
+            <div class="form-group">
+                <textarea id="question-text"
+                          class="form-control"
+                          aria-label="Write your question:"
+                          placeholder="Write your question:"
+                          rows="3"
+                          maxlength="255"
+                          th:field="*{text}"
+                          required></textarea>
+            </div>
         </div>
         <div class="float-right mt-2">
             <input class="btn btn-success" type="submit" value="Add new question" />
@@ -112,6 +132,13 @@
             window.location.reload(true)
         }, 200);
     }
+    $('textarea').maxlength({
+        alwaysShow: true,
+        placement: 'bottom-left-inside',
+        warningClass: "label label-success",
+        limitReachedClass: "label label-danger",
+        validate: true
+    });
 </script>
 </body>
 </html>
