@@ -1,49 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en">
 <head>
-     <!--Bootstrap CSS-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-maxlength/1.7.0/bootstrap-maxlength.min.js"></script>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>New user</title>
 </head>
 <body>
-<form name="form" th:action="'/users/submit'" th:object="${user}" method="post">
-    <table>
-        <tr>
-            <td>First name:</td>
-            <td><input type="text" name="first_name" th:field="*{firstName}" required></td>
-        </tr>
-        <tr>
-            <td>Last name:</td>
-            <td><input type="text" name="last_name" th:field="*{lastName}" required></td>
-        </tr>
-        <tr>
-            <td>E-mail:</td>
-            <td><input type="email" name="e-mail" th:field="*{email}" required></td>
-        </tr>
-        <tr>
-            <td>Phone:</td>
-            <td><input type="tel" name="phone" th:field="*{phone}" required></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="password" name="password" th:field="*{password}" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"></td>
-        </tr>
-        <tr>
-            <td>Confirm password:</td>
-            <td><input type="password" name="confirm_password" required></td>
-        </tr>
-    </table>
-    <p>
-        <input type="submit" value="Submit"/>
-        <input type="reset" value="Reset"/>
-    </p>
+<li class="px-3 py-2">
+<form>
+    <div class="form-group">
+        <input type="text" class="form-control" id="form-first-name" placeholder="First name">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" id="form-last-name" placeholder="Last name">
+    </div>
+    <div class="form-group">
+        <input  type="email" class="form-control" id="form-email" placeholder="email@example.com">
+    </div>
+    <div class="form-group">
+        <input  type="tel" class="form-control" id="form-phone" placeholder="+380671234567">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" id="form-password" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" id="form-password-confirm" placeholder="Confirm">
+    </div>
+    <div class="form-group row px-3">
+        <button type="submit" id="save" class="btn btn-outline-success col-sm mr-1">Save</button>
+        <button type="reset" id="reset" class="btn btn-outline-danger col-sm ml-1">Reset</button>
+    </div>
 </form>
+</li>
 </body>
 </html>
