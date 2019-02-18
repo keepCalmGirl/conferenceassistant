@@ -46,7 +46,7 @@ public class UserController {
     @GetMapping("/users/form")
     public String userForm(Model model) {
         model.addAttribute("user", new User());
-        return "user_form_header";
+        return "user_form";
     }
 
     @PostMapping("/users/submit")
