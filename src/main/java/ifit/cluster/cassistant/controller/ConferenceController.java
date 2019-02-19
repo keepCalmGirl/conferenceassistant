@@ -32,19 +32,20 @@ public class ConferenceController {
     @GetMapping("/")
     public String getConferences(Model model){
         model.addAttribute("conferences", conferenceService.getAllConferences());
+        model.addAttribute("conferenceToSave", new Conference());
         return "conferences";
     }
 
-    @GetMapping("/conference")
-    public String conferenceForm(Model model){
-        model.addAttribute("conference", new Conference());
-        return "conference_form";
-    }
+//    @GetMapping("/conference")
+//    public String conferenceForm(Model model){
+//        model.addAttribute("conference", new Conference());
+//        return "conference_form";
+//    }
 
     @PostMapping("/conference")
     public String conferenceSubmit(@ModelAttribute Conference conference){
         conferenceService.saveConference(conference);
-        return "redirect:/"+conference.getId_hash();
+        return "redirect:/";
     }
 }
 
