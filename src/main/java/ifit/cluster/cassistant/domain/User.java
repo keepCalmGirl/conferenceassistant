@@ -17,6 +17,7 @@ public class User {
     private Role role = Role.USER;
     private String password;
     private boolean enabled = true;
+    private String photo;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "likes")
     private Set<Question> likedQuestions = new HashSet<>();
@@ -105,5 +106,13 @@ public class User {
 
     public void setLikedQuestions(Set<Question> likedQuestions) {
         this.likedQuestions = likedQuestions;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
