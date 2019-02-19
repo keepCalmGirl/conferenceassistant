@@ -74,7 +74,7 @@
                                 <!--&lt;!&ndash;<small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>&ndash;&gt;-->
                             <!--&lt;!&ndash;</div>&ndash;&gt;-->
                         <!--</form>-->
-                        <form>
+                        <form id="sign-in-form">
                             <div class="form-group">
                                 <input type="email" class="form-control" id="form-email" placeholder="email@example.com">
                             </div>
@@ -96,7 +96,16 @@
                         <form class="form" role="form" action="/users/form">
                             <button type="submit" id="sign-up" class="btn btn-success btn-block">Sign up</button>
                         </form>
-                        <div th:include="user_form_header"></div>
+                        <button id="sign-up-new"
+                                class="btn btn-success btn-block"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#sign-on-form"
+                                aria-expanded="false"
+                                aria-controls="sign-on-form">Sign up new</button>
+                        <div id="sign-on-form" class="collapse">
+                            <div th:include="user_form_header"></div>
+                        </div>
                     </li>
                 </ul>
             </li>
