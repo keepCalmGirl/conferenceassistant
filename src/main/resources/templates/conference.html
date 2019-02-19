@@ -16,7 +16,11 @@
     <title>Conference</title>
 </head>
 <body>
-
+    <script>
+    function openWindow(id) {
+        window.location.href = "/topics/" + id;
+    }
+    </script>
 <div class="container">
     <div th:include="header"></div>
         <h1 th:utext="${conference.name}"></h1>
@@ -31,8 +35,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="topic : ${conference.topic}" >
-            <td th:href="'/topics/'+${topic.id}" th:text="${topic.name}"></td>
+        <tr th:each="topic : ${conference.topic}"  >
+            <td th:text="${topic.name}"></td>
             <td th:text="${topic.speaker}"></td>
             <td th:text="${topic.summary}"></td>
             <td th:text="${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:mm')}"></td>
