@@ -24,6 +24,12 @@
 <div class="container">
     <div th:include="header"></div>
         <h1 th:utext="${conference.name}"></h1>
+    <form method="post" th:action="@{|/${conference.id_hash}/sort/timeline|}" >
+        <button>Sort by timeline</button>
+    </form>
+    <form method="post" th:action="@{|/${conference.id_hash}/sort/likes|}">
+        <button>Sort by likes</button>
+    </form>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -35,7 +41,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="topic : ${conference.topic}"  >
+        <tr th:each="topic : ${conference.topic}" th:onclick="'openWindow('+${topic.id}+');'" >
             <td th:text="${topic.name}"></td>
             <td th:text="${topic.speaker}"></td>
             <td th:text="${topic.summary}"></td>
