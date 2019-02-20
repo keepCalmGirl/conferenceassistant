@@ -8,6 +8,7 @@ import ifit.cluster.cassistant.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,8 +42,14 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
+    public List<Topic> getAllOrderBy() {
+        return topicRepository.getAllOrderById();
+    }
+
+    @Override
     public boolean checkEmail(String email) {
         return false;
     }
+
 
 }

@@ -45,9 +45,8 @@ public class ConferenceController {
         if (sortStatus){
         conference.getTopic().sort(Comparator.comparing(Topic::likesSize).reversed());
             System.out.println("like");
-        }else {conference.getTopic().sort(Comparator.comparing(Topic::getId).reversed());
-            System.out.println("timeline");
-        }
+        }else {}
+        sortStatus=false;
         return conference;
     }
 

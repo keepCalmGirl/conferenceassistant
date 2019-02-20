@@ -8,6 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface TopicRepository extends CrudRepository<Topic, Long> {
 
@@ -20,4 +23,6 @@ public interface TopicRepository extends CrudRepository<Topic, Long> {
     @Transactional
     @Query(value = "UPDATE topic SET topic.rate = topic.rate - 1 WHERE topic.id = :topicId", nativeQuery = true)
     void decrementRate(@Param("topicId") Long topicId);
+
+    List<Topic> getAllOrderById();
 }
