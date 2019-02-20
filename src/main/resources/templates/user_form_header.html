@@ -1,29 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script type="text/javascript" src="/webjars/jquery/3.3.1/jquery.min.js"></script>
     <title>New user</title>
 </head>
 <body>
 <li class="px-3 py-2">
-<form>
+<form id="search-form">
     <div class="form-group">
-        <input type="text" class="form-control" id="form-first-name" placeholder="First name">
+        <input type="text" class="form-control" name="firstName" id="form-first-name" placeholder="First name">
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" id="form-last-name" placeholder="Last name">
+        <input type="text" class="form-control" name="lastName" id="form-last-name" placeholder="Last name">
     </div>
     <div class="form-group">
-        <input  type="email" class="form-control" id="form-email" placeholder="email@example.com">
+        <input  type="email" class="form-control" name="form-email"  placeholder="email@example.com">
     </div>
     <div class="form-group">
-        <input  type="tel" class="form-control" id="form-phone" placeholder="+380671234567">
+        <input  type="tel" class="form-control" name="phone" id="form-phone" placeholder="+380671234567">
     </div>
     <div class="form-group">
-        <input type="password" class="form-control" id="form-password" placeholder="Password">
+        <input type="password" class="form-control" name="password" placeholder="Password">
     </div>
     <div class="form-group">
-        <input type="password" class="form-control" id="form-password-confirm" placeholder="Confirm">
+        <input type="password" class="form-control" name="password-confirm" id="form-password-confirm" placeholder="Confirm">
     </div>
     <div class="form-group row px-3">
         <button type="submit" id="save" class="btn btn-outline-success col-sm mr-1">Save</button>
@@ -32,4 +35,51 @@
 </form>
 </li>
 </body>
+<script>
+    $(document).ready(function () {
+
+        $("#search-form").submit(function (event) {
+
+            //stop submit the form, we will post it manually.
+            event.preventDefault();
+
+            fire_ajax_submit();
+
+        });
+
+    });
+
+    function fire_ajax_submit() {
+        alert("ura");
+        let user = {
+            "firstName" : $("#form-first-name").val(),
+            "lastName" : $("#form-last-name").val(),
+            "email" : $("#email").val(),
+            "phone" : $("#form-phone").val(),
+            "password" : $("#password").val()
+        };
+
+        alert(JSON.stringify(user));
+
+        let token = $('#_csrf').attr('content');
+        let header = $('#_csrf_header').attr('content');
+
+        $.ajax({
+            type: 'POST',
+            url: '/users/submit/new',
+            data: JSON.stringify(user),
+            contentType: 'application/json',
+            dataType: 'text',
+            success: function(data){
+                alert('success ' + data)
+            },
+            error: function(msg){
+                alert('error '+ JSON.stringify(msg))
+            },
+            beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        }
+        });
+    }
+</script>
 </html>
