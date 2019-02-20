@@ -1,13 +1,12 @@
 package ifit.cluster.cassistant.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.Comparator;
 import java.util.List;
 
 @Entity
-public class Conference implements Comparable {
+public class Conference implements Comparable<Conference> {
     @Id
     @GeneratedValue
     private Long id_hash;
@@ -67,7 +66,10 @@ public class Conference implements Comparable {
     public int compareTo(Conference o) {
         return o.topic.size()-topic.size();
     }
-    public void sortByLikes(){
-            topic.sort(Comparator.comparing(Topic::likesSize).reversed());
+
+    public void sortById(){
+            topic.sort(Comparator.comparing(Topic::getId).reversed());
     }
+
+    public void sortByLikes(){topic.sort(Comparator.comparing(Topic::likesSize).reversed());}
 }

@@ -42,11 +42,6 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public List<Topic> getAllOrderBy() {
-        return topicRepository.getAllOrderById();
-    }
-
-    @Override
     public boolean checkEmail(String email) {
         return false;
     }

@@ -1,9 +1,6 @@
 package ifit.cluster.cassistant.service;
 
-import ifit.cluster.cassistant.domain.Conference;
 import ifit.cluster.cassistant.domain.Topic;
-
-import java.util.List;
 import java.util.Optional;
 
 public interface TopicService {
@@ -12,5 +9,4 @@ public interface TopicService {
     void decrementRate(Long topicId);
     boolean checkEmail(String email);
     Topic saveTopic(Topic topic);
-    List<Topic> getAllOrderBy();
 }

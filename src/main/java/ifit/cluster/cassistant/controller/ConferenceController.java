@@ -1,21 +1,17 @@
 package ifit.cluster.cassistant.controller;
 
 import ifit.cluster.cassistant.domain.Conference;
-import ifit.cluster.cassistant.domain.Topic;
 import ifit.cluster.cassistant.service.ConferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Comparator;
 import java.util.Optional;
 
 @Controller
 public class ConferenceController {
 
     private final ConferenceService conferenceService;
-    private static boolean sortStatus;
 
     @Autowired
     public ConferenceController(ConferenceService conferenceService) {
@@ -26,28 +22,22 @@ public class ConferenceController {
     public String getConference(@PathVariable("id") Long conferenceId, Model model){
         Optional<Conference> conferenceOptional = conferenceService.getConference(conferenceId);
         if (conferenceOptional.isPresent()){
-            model.addAttribute("conference", sort(conferenceOptional.get()));
-            System.out.println(sortStatus);
+            conferenceOptional.get().sortByLikes();
+            model.addAttribute("conference", conferenceOptional.get());
             return "conference";
         }
         return "404";
     }
 
-    @PostMapping("/{id}/sort/{sortStatus}")
-   public String sortTopics(@PathVariable("id") Long ConferenceId , @PathVariable("sortStatus") String sort){
-        if (sort.contains("like")){
-        sortStatus=true;}
-        else if (sort.contains("timeline")){sortStatus=false;}
-        return "redirect:/"+ConferenceId;
-    }
-
-    private Conference sort(Conference conference){
-        if (sortStatus){
-        conference.getTopic().sort(Comparator.comparing(Topic::likesSize).reversed());
-            System.out.println("like");
-        }else {}
-        sortStatus=false;
-        return conference;
+    @GetMapping("/sort/{id}")
+    public String getSortConference(@PathVariable("id") Long conferenceId, Model model){
+        Optional<Conference> conferenceOptional = conferenceService.getConference(conferenceId);
+        if (conferenceOptional.isPresent()){
+            conferenceOptional.get().sortById();
+            model.addAttribute("conference", conferenceOptional.get());
+            return "conference";
+        }
+        return "404";
     }
 
     @GetMapping("/")
