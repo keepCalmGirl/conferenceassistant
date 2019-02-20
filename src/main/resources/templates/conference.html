@@ -35,7 +35,7 @@
         <tr>
             <th scope="col">Topic</th>
             <th scope="col">Speaker</th>
-            <th scope="col">Summary</th>
+            <!--th scope="col">Summary</th-->
             <th scope="col">Start time</th>
             <th scope="col">Rating</th>
         </tr>
@@ -44,7 +44,7 @@
         <tr th:each="topic : ${conference.topic}" th:onclick="'openWindow('+${topic.id}+');'" >
             <td th:text="${topic.name}"></td>
             <td th:text="${topic.speaker}"></td>
-            <td th:text="${topic.summary}"></td>
+            <!--td th:text="${topic.summary}"></td-->
             <td th:text="${#calendars.format(topic.dateTime,'dd-MM-yyyy HH:mm')}"></td>
             <td class="text-center">
                 <button th:classappend="${topic.hasLike(#authentication.name)} ? 'btn btn-secondary btn-sm' : 'btn btn-primary btn-sm'"
