@@ -33,6 +33,14 @@ public class User {
         this.likedQuestions = likedQuestions;
     }
 
+    public User(String email, String firstName, String lastName, Role role, String password) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.password = password;
+    }
+
     public User() {
     }
 

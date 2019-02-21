@@ -23,21 +23,23 @@
                 <a class="nav-link" th:href="'/1'" th:text="#{current_conference}"></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="'/users'" th:text="#{users}"></a>
+                <a class="nav-link" sec:authorize="isAuthenticated()" th:href="'/users'" th:text="#{users}"></a>
             </li>
         </ul>
         <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
-            <li>
-                <a href="?lang=ua">
-                    <img src="../images/iconfinder_UA.png" alt="UA">
-                </a>
-            </li>
-            <li>
-                <a href="?lang=en">
-                    <img src="../images/iconfinder_US.png" alt="EN">
-                </a>
-            </li>
             <!--<li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>-->
+            <div class="row mx-3 mt-2">
+                <li>
+                    <a href="?lang=ua">
+                        <img src="../images/iconfinder_UA.png" alt="UA">
+                    </a>
+                </li>
+                <li>
+                    <a href="?lang=en">
+                        <img src="../images/iconfinder_US.png" alt="EN">
+                    </a>
+                </li>
+            </div>
             <li sec:authorize="isAuthenticated()" class="dropdown order-1">
                 <!--<form action="/logout">-->
                     <!--<a class="navbar-brand" sec:authentication="name" th:href="'/users/6'">Bob</a>-->
@@ -46,7 +48,7 @@
                 <a class="navbar-brand" href="#" sec:authentication="name" data-toggle="dropdown">Bob <span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-menu-right mt-2">
                     <li class="px-3 py-2">
-                        <a class="dropdown-item" href="users/6" th:text="#{my_profile}"></a>
+                        <a class="dropdown-item" th:href="'/users/'+${#authentication.name}" th:text="#{my_profile}"></a>
                         <div class="dropdown-divider"></div>
                         <form class="form" role="form" action="/logout">
                             <!--<div class="form-group">-->

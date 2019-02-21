@@ -23,11 +23,11 @@ public class UserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @GetMapping("/users/{id}")
-    public String getUser(@PathVariable("id") Long id, Model model){
-        Optional<User> userById = userService.getUserById(id);
-        if (userById.isPresent()){
-            model.addAttribute("user", userById.get());
+    @GetMapping("/users/{email}")
+    public String getUser(@PathVariable("email") String email, Model model){
+        Optional<User> userByEmail = userService.getUserByEmail(email);
+        if (userByEmail.isPresent()){
+            model.addAttribute("user", userByEmail.get());
             return "profile";
         } else {
             return "redirect:/";
