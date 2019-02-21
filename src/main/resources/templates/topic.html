@@ -27,14 +27,14 @@
                 style="width: 5%">#</th>
             <th scope="col"
                 style="width: 70%"
-                th:text="|Question (Total:${topic.questions.size()})|">questions</th>
+                th:text="|#{questions} (Total:${topic.questions.size()})|">questions</th>
             <th class="text-center"
                 style="width: 10%"
-                scope="col">Rate</th>
+                scope="col" th:text="#{rating}">Rate</th>
             <th class="text-center"
                 style="width: 15%"
                 scope="col"
-                sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')">Status</th>
+                sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')" th:text="#{status}"></th>
         </tr>
         </thead>
         <tbody>
@@ -48,7 +48,8 @@
                 <button th:classappend="${question.hasLike(#authentication.name)} ? 'btn btn-secondary btn-sm' : 'btn btn-primary btn-sm'"
                         th:value="${#authentication.name}"
                         th:onclick="|like(${question.id},value)|">
-                    <span id="like-button" class="badge badge-light" th:text="${question.likes.size()}">0</span> Like
+                    <span id="like-button" class="badge badge-light" th:text="${question.likes.size()}">0</span>
+                    <span th:text="#{like}"/>
                 </button>
             </td>
             <td sec:authorize="hasAnyAuthority('ADMIN','0','MODERATOR','1')">
@@ -77,8 +78,8 @@
             <div class="form-group">
                 <textarea id="question-text"
                           class="form-control"
-                          aria-label="Write your question:"
-                          placeholder="Write your question:"
+                          th:aria-label="#{write_your_question}"
+                          th:placeholder="#{write_your_question}"
                           rows="3"
                           maxlength="255"
                           th:field="*{text}"
@@ -86,8 +87,8 @@
             </div>
         </div>
         <div class="float-right mt-2">
-            <input class="btn btn-success" type="submit" value="Add new question" />
-            <input class="btn btn-danger" type="reset" value="Reset" />
+            <input class="btn btn-success" type="submit" th:value="#{add_new_question}"/>
+            <input class="btn btn-danger" type="reset" th:value="#{reset}"/>
         </div>
     </form>
 </div>

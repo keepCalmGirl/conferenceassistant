@@ -27,21 +27,21 @@ public class Internationalization implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        Locale uaLocale = new Locale.Builder().setLanguage("ua").setRegion("UA").build();
+        Locale uaLocale = new Locale.Builder().setLanguage("en").setRegion("EN").build();
         slr.setDefaultLocale(uaLocale);
         return slr;
     }
 
     @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
-        return lci;
+    public LocaleChangeInterceptor localeInterceptor(){
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        return interceptor;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(localeInterceptor());
     }
 }
 

@@ -23,11 +23,11 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Topic</th>
-            <th scope="col">Speaker</th>
-            <th scope="col">Summary</th>
-            <th scope="col">Start time</th>
-            <th scope="col">Rating</th>
+            <th scope="col" th:text="#{topic}"/>
+            <th scope="col" th:text="#{speaker}"/>
+            <th scope="col" th:text="#{summary}"/>
+            <th scope="col" th:text="#{start_time}"/>
+            <th scope="col" th:text="#{rating}"/>
         </tr>
         </thead>
         <tbody>
@@ -42,7 +42,7 @@
     </table>
 
     <form action="#" th:action="|${conference.id_hash}/topic/|" method="get">
-        <button class="btn btn-outline-dark">Add new topic</button>
+        <button class="btn btn-outline-dark" th:text="#{add_new_topic}" />
     </form>
 </div>
 
