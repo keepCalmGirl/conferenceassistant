@@ -87,12 +87,14 @@
                                 <!--&lt;!&ndash;<small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>&ndash;&gt;-->
                             <!--&lt;!&ndash;</div>&ndash;&gt;-->
                         <!--</form>-->
-                        <form id="sign-in-form">
+                        <form id="sign-in-form" th:action="@{/login}" method="post">
                             <div class="form-group">
-                                <input type="email" class="form-control" id="form-email" placeholder="email@example.com">
+                                <input class="form-control" id="form-email" placeholder="email@example.com" required
+                                       type="text">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="form-password" placeholder="Password">
+                                <input class="form-control" id="form-password" placeholder="Password" required
+                                       type="password">
                             </div>
                             <!--<div class="form-check">-->
                             <!--<input type="checkbox" class="form-check-input" id="dropdownCheck">-->
@@ -101,7 +103,7 @@
                             <!--</label>-->
                             <!--</div>-->
                             <div class="form-group">
-                                <button type="submit" id="sign-in" class="btn btn-primary btn-block" th:text="#{sing_out}"></button>
+                                <button type="submit" id="sign-in" class="btn btn-primary btn-block" th:text="#{sing_in}"></button>
                             </div>
                             <div class="dropdown-divider"></div>
                         </form>
