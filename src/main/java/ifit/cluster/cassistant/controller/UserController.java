@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -23,8 +24,8 @@ public class UserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @GetMapping("/users/{email}")
-    public String getUser(@PathVariable("email") String email, Model model){
+    @PostMapping("/users/profile")
+    public String getUser(@RequestBody String email, Model model){
         Optional<User> userByEmail = userService.getUserByEmail(email);
         if (userByEmail.isPresent()){
             model.addAttribute("user", userByEmail.get());
