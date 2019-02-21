@@ -28,7 +28,7 @@
 <header th:include="header"></header>
 <body >
 <div class="container">
-    <h1>Conference list</h1>
+    <h1 class="text-center" th:text="#{conference_list}"></h1>
     <div class="row">
         <div class="card border-dark mt-3 ml-5 mr-4 col-3" style="max-width: 18rem; padding-left: 0px; padding-right: 0px;" onfocus=""
              th:each="conference : ${conferences}"
@@ -40,26 +40,26 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-outline-dark mt-3" data-toggle="modal" data-target="#exampleModal" sec:authorize="hasAnyAuthority('ADMIN', 0)" >
-        Add new conference
-    </button>
+    <button type="button" class="btn btn-outline-dark mt-3" data-toggle="modal" data-target="#exampleModal"
+            sec:authorize="hasAnyAuthority('ADMIN', 0)"
+            th:text="#{add_new_conference}"/>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add new conference</h5>
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="#{add_new_conference}"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" th:action="|/conference|" th:object="${conferenceToSave}" method="post">
-                        <input class="form-control" type="text" placeholder="Name" name="name" th:field="*{name}">
-                        <input class="form-control" type="text" placeholder="Info" name="info" th:field="*{info}"
+                    <form  th:action="|/conference|" th:object="${conferenceToSave}" method="post">
+                        <input class="form-control" type="text" th:placeholder="#{name}" name="name" th:field="*{name}">
+                        <input class="form-control" type="text" th:placeholder="#{info}" name="info" th:field="*{info}"
                                style="margin-top: 8px">
-                        <button class="btn btn-outline-dark" value="Save" type="submit" style="margin-top: 8px">Save</button>
+                        <button class="btn btn-outline-dark" value="Save" type="submit" style="margin-top: 8px" th:text="#{save}"/>
                     </form>
                 </div>
             </div>

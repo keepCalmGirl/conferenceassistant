@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
+<meta charset="UTF-8">
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -13,19 +14,29 @@
         <a class="navbar-brand" th:href="'/'">Confass</a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" th:href="'/'">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" th:href="'/'" th:text="#{home}"><span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="'/'">Conferences</a>
+                <a class="nav-link" th:href="'/'" th:text="#{conferences}"></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="'/1'">Current conference</a>
+                <a class="nav-link" th:href="'/1'" th:text="#{current_conference}"></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="'/users'">Users</a>
+                <a class="nav-link" th:href="'/users'" th:text="#{users}"></a>
             </li>
         </ul>
         <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+            <li>
+                <a href="?lang=ua">
+                    <img src="../images/iconfinder_UA.png" alt="UA">
+                </a>
+            </li>
+            <li>
+                <a href="?lang=en">
+                    <img src="../images/iconfinder_US.png" alt="EN">
+                </a>
+            </li>
             <!--<li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>-->
             <li sec:authorize="isAuthenticated()" class="dropdown order-1">
                 <!--<form action="/logout">-->
@@ -35,7 +46,7 @@
                 <a class="navbar-brand" href="#" sec:authentication="name" data-toggle="dropdown">Bob <span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-menu-right mt-2">
                     <li class="px-3 py-2">
-                        <a class="dropdown-item" href="users/6">My profile</a>
+                        <a class="dropdown-item" href="users/6" th:text="#{my_profile}"></a>
                         <div class="dropdown-divider"></div>
                         <form class="form" role="form" action="/logout">
                             <!--<div class="form-group">-->
@@ -45,7 +56,7 @@
                                 <!--<input id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="text" required="">-->
                             <!--</div>-->
                             <div class="form-group">
-                                <button type="submit" id="sign-out" class="btn btn-danger btn-block">Sign out</button>
+                                <button type="submit" id="sign-out" class="btn btn-danger btn-block" th:text="#{sing_out}"></button>
                             </div>
                             <!--<div class="form-group text-center">-->
                                 <!--<small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>-->
@@ -56,7 +67,7 @@
             </li>
             <li sec:authorize="!isAuthenticated()" class="dropdown order-1">
                 <!--<a class="navbar-brand" th:href="@{/login}">Login</a>-->
-                <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button>
+                <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle" th:text="#{login}"><span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right mt-2">
                     <li class="px-3 py-2">
                         <!--<a class="navbar-brand" th:href="@{/login}">Login</a>-->
@@ -88,13 +99,13 @@
                             <!--</label>-->
                             <!--</div>-->
                             <div class="form-group">
-                                <button type="submit" id="sign-in" class="btn btn-primary btn-block">Sign in</button>
+                                <button type="submit" id="sign-in" class="btn btn-primary btn-block" th:text="#{sing_out}"></button>
                             </div>
                             <div class="dropdown-divider"></div>
                         </form>
-                        <a class="dropdown-item" href="/login">Log in</a>
+                        <a class="dropdown-item" href="/login" th:text="#{login}"></a>
                         <form class="form" role="form" action="/users/form">
-                            <button type="submit" id="sign-up" class="btn btn-success btn-block">Sign up</button>
+                            <button type="submit" id="sign-up" class="btn btn-success btn-block" th:text="#{sing_out}"></button>
                         </form>
                         <button id="sign-up-new"
                                 class="btn btn-success btn-block"
