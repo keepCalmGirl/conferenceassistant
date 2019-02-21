@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/profile")
                 .access("hasAnyAuthority('ADMIN', 'MODERATOR', 'USER')")
                 .antMatchers("/users", "/cqs")
-                .access("hasAnyAuthority('ADMIN', 'MODERATOR')")
+                .access("hasAnyAuthority('ADMIN', 'MODERATOR', '0', '1')")
                 .antMatchers("/conference")
                 .access("hasAnyAuthority('ADMIN')")
                 .and()
