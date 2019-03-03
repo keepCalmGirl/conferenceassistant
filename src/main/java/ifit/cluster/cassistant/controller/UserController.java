@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 import java.util.Optional;
@@ -24,21 +25,9 @@ public class UserController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @GetMapping("/users/{id}")
-    public String getUser(@PathVariable Long id, Model model){
-        Optional<User> userById = userService.getUserById(id);
-        if (userById.isPresent()){
-            model.addAttribute("user", userById.get());
-            return "profile";
-        } else {
-            return "redirect:/";
-        }
-    }
-
-    @GetMapping("/users/{email}/new")
-    public String getUserNew(@PathVariable String email, Model model){
+    @PostMapping("/users/profile")
+    public String getProfile(@RequestParam(name = "email") String email, Model model){
         Optional<User> userByEmail = userService.getUserByEmail(email);
-//        Optional<User> userById = userService.getUserById(id);
         if (userByEmail.isPresent()){
             model.addAttribute("user", userByEmail.get());
             return "profile";

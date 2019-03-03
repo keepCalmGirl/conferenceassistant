@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script type="text/javascript" src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <title>New user</title>
+</head>
+<body>
+<form id="profile-form" class="form " role="form" action="#" th:action="@{/users/profile}" th:method="post">
+    <div class="form-group">
+        <input type="hidden" class="form-control" name="email" id="email" th:value="${#authentication.name}">
+    </div>
+    <div class="form-group">
+        <button type="submit" id="profile-button" class="btn btn-link btn-block" th:text="#{my_profile}"></button>
+    </div>
+</form>
+<div class="dropdown-divider"></div>
+<form class="form" role="form" action="/logout">
+    <!--<div class="form-group">-->
+    <!--<input id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">-->
+    <!--</div>-->
+    <!--<div class="form-group">-->
+    <!--<input id="passwordInput" placeholder="Password" class="form-control form-control-sm" type="text" required="">-->
+    <!--</div>-->
+    <div class="form-group">
+        <button type="submit" id="sign-out" class="btn btn-danger btn-block" th:text="#{sing_out}"></button>
+    </div>
+    <!--<div class="form-group text-center">-->
+    <!--<small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>-->
+    <!--</div>-->
+</form>
+</body>
+<!--<script>-->
+    <!--$(document).ready(function () {-->
+
+        <!--$("#profile-form").submit(function (event) {-->
+
+            <!--//stop submit the form, we will post it manually.-->
+            <!--event.preventDefault();-->
+
+            <!--fire_ajax_submit();-->
+
+        <!--});-->
+
+    <!--});-->
+
+    <!--function fire_ajax_submit() {-->
+        <!--let email = {-->
+            <!--"email" : $("#email").val()-->
+        <!--};-->
+
+        <!--$.ajax({-->
+            <!--type: 'GET',-->
+            <!--url: '/users/profile',-->
+            <!--data: JSON.stringify(email),-->
+            <!--contentType: 'application/json'-->
+        <!--});-->
+    <!--}-->
+<!--</script>-->
+</html>
