@@ -35,6 +35,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/users/{email}/new")
+    public String getUserNew(@PathVariable String email, Model model){
+        Optional<User> userByEmail = userService.getUserByEmail(email);
+//        Optional<User> userById = userService.getUserById(id);
+        if (userByEmail.isPresent()){
+            model.addAttribute("user", userByEmail.get());
+            return "profile";
+        } else {
+            return "redirect:/";
+        }
+    }
+
     @GetMapping("/users")
     public String getAllUsers(Model model){
         model.addAttribute("users", userService.getAllUsers());
