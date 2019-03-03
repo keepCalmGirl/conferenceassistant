@@ -11,22 +11,22 @@
 <li class="px-3 py-2">
 <form id="search-form">
     <div class="form-group">
-        <input type="text" class="form-control" name="firstName" id="form-first-name" placeholder="First name">
+        <input type="text" class="form-control" name="firstName" id="first-name" placeholder="First name">
     </div>
     <div class="form-group">
-        <input type="text" class="form-control" name="lastName" id="form-last-name" placeholder="Last name">
+        <input type="text" class="form-control" name="lastName" id="last-name" placeholder="Last name">
     </div>
     <div class="form-group">
-        <input  type="email" class="form-control" name="form-email"  placeholder="email@example.com">
+        <input id="email" type="email" class="form-control" name="form-email"  placeholder="email@example.com">
     </div>
     <div class="form-group">
-        <input  type="tel" class="form-control" name="phone" id="form-phone" placeholder="+380671234567">
+        <input  type="tel" class="form-control" name="phone" id="phone" placeholder="+380671234567">
     </div>
     <div class="form-group">
-        <input type="password" class="form-control" name="password" placeholder="Password">
+        <input id="password" type="password" class="form-control" name="password" placeholder="Password">
     </div>
     <div class="form-group">
-        <input type="password" class="form-control" name="password-confirm" id="form-password-confirm" placeholder="Confirm">
+        <input type="password" class="form-control" name="password-confirm" id="password-confirm" placeholder="Confirm">
     </div>
     <div class="form-group row px-3">
         <button type="submit" id="save" class="btn btn-outline-success col-sm mr-1">Save</button>
@@ -50,17 +50,13 @@
     });
 
     function fire_ajax_submit() {
-        alert("ura");
         let user = {
-            "firstName" : $("#form-first-name").val(),
-            "lastName" : $("#form-last-name").val(),
+            "firstName" : $("#first-name").val(),
+            "lastName" : $("#last-name").val(),
             "email" : $("#email").val(),
-            "phone" : $("#form-phone").val(),
+            "phone" : $("#phone").val(),
             "password" : $("#password").val()
         };
-
-        alert(JSON.stringify(user));
-
         let token = $('#_csrf').attr('content');
         let header = $('#_csrf_header').attr('content');
 
@@ -71,7 +67,7 @@
             contentType: 'application/json',
             dataType: 'text',
             success: function(data){
-                alert('success ' + data)
+                alert('success ' + data);
             },
             error: function(msg){
                 alert('error '+ JSON.stringify(msg))

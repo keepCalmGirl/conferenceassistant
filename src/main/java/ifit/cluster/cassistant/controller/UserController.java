@@ -57,12 +57,8 @@ public class UserController {
     @PostMapping(value = "/users/submit/new")
     @ResponseBody
     public String userSubmitNew(@RequestBody User user) {
-        System.out.println(user.getFirstName());
-        System.out.println(user.getLastName());
-        System.out.println(user.getEmail());
-        System.out.println(user.getPassword());
-        System.out.println(user.getPhone());
-        System.out.println("HAHA");
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userService.saveUser(user);
         return "{'text': 'fooooo'}";
     }
 }
