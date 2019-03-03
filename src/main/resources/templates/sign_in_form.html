@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script type="text/javascript" src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <title>New user</title>
+</head>
+<body>
+<form id="sign-in-form" th:action="@{/login}" method="post">
+    <div class="form-group">
+        <input class="form-control" id="form-email" placeholder="email@example.com" required
+               type="text">
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="form-password" placeholder="Password" required
+               type="password">
+    </div>
+    <!--<div class="form-check">-->
+    <!--<input type="checkbox" class="form-check-input" id="dropdownCheck">-->
+    <!--<label class="form-check-label" for="dropdownCheck">-->
+    <!--Remember me-->
+    <!--</label>-->
+    <!--</div>-->
+    <div class="form-group">
+        <button type="submit" id="sign-in" class="btn btn-primary btn-block" th:text="#{sing_in}"></button>
+    </div>
+</form>
+</body>
+<!--<script>-->
+    <!--$(document).ready(function () {-->
+
+        <!--$("#search-form").submit(function (event) {-->
+
+            <!--//stop submit the form, we will post it manually.-->
+            <!--event.preventDefault();-->
+
+            <!--fire_ajax_submit();-->
+
+        <!--});-->
+
+    <!--});-->
+
+    <!--function fire_ajax_submit() {-->
+        <!--let user = {-->
+            <!--"firstName" : $("#first-name").val(),-->
+            <!--"lastName" : $("#last-name").val(),-->
+            <!--"email" : $("#email").val(),-->
+            <!--"phone" : $("#phone").val(),-->
+            <!--"password" : $("#password").val()-->
+        <!--};-->
+        <!--let token = $('#_csrf').attr('content');-->
+        <!--let header = $('#_csrf_header').attr('content');-->
+
+        <!--$.ajax({-->
+            <!--type: 'POST',-->
+            <!--url: '/users/submit/new',-->
+            <!--data: JSON.stringify(user),-->
+            <!--contentType: 'application/json',-->
+            <!--dataType: 'text',-->
+            <!--success: function(data){-->
+                <!--alert('success ' + data);-->
+            <!--},-->
+            <!--error: function(msg){-->
+                <!--alert('error '+ JSON.stringify(msg))-->
+            <!--},-->
+            <!--beforeSend: function(xhr) {-->
+            <!--xhr.setRequestHeader(header, token);-->
+        <!--}-->
+        <!--});-->
+    <!--}-->
+<!--</script>-->
+</html>

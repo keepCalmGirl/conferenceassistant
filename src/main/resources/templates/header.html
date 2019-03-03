@@ -83,7 +83,7 @@
                 <!--<a class="navbar-brand" th:href="@{/login}">Login</a>-->
                 <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle" th:text="#{login}"><span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right mt-2">
-                    <li class="px-3 py-2">
+                    <li class="px-3 pt-2">
                         <!--<a class="navbar-brand" th:href="@{/login}">Login</a>-->
                         <!--<form class="form" role="form" th:action="@{'/login'}">-->
                             <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
@@ -99,40 +99,47 @@
                                 <!--&lt;!&ndash;<small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>&ndash;&gt;-->
                             <!--&lt;!&ndash;</div>&ndash;&gt;-->
                         <!--</form>-->
-                        <form id="sign-in-form" th:action="@{/login}" method="post">
-                            <div class="form-group">
-                                <input class="form-control" id="form-email" placeholder="email@example.com" required
-                                       type="text">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" id="form-password" placeholder="Password" required
-                                       type="password">
-                            </div>
-                            <!--<div class="form-check">-->
-                            <!--<input type="checkbox" class="form-check-input" id="dropdownCheck">-->
-                            <!--<label class="form-check-label" for="dropdownCheck">-->
-                            <!--Remember me-->
-                            <!--</label>-->
+                        <!--<form id="sign-in-form" th:action="@{/login}" method="post">-->
+                            <!--<div class="form-group">-->
+                                <!--<input class="form-control" id="form-email" placeholder="email@example.com" required-->
+                                       <!--type="text">-->
                             <!--</div>-->
-                            <div class="form-group">
-                                <button type="submit" id="sign-in" class="btn btn-primary btn-block" th:text="#{sing_in}"></button>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                        </form>
+                            <!--<div class="form-group">-->
+                                <!--<input class="form-control" id="form-password" placeholder="Password" required-->
+                                       <!--type="password">-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;<div class="form-check">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<input type="checkbox" class="form-check-input" id="dropdownCheck">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<label class="form-check-label" for="dropdownCheck">&ndash;&gt;-->
+                            <!--&lt;!&ndash;Remember me&ndash;&gt;-->
+                            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--<div class="form-group">-->
+                                <!--<button type="submit" id="sign-in" class="btn btn-primary btn-block" th:text="#{sing_in}"></button>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                        <div th:include="sign_in_form"></div>
+                    </li>
+                    <li class="px-3">
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li class="px-3 pb-2">
                         <a class="dropdown-item" href="/login" th:text="#{login}"></a>
                         <form class="form" role="form" action="/users/form">
                             <button type="submit" id="sign-up" class="btn btn-success btn-block" th:text="#{sign_up}"></button>
                         </form>
-                        <button id="sign-up-new"
-                                class="btn btn-success btn-block"
-                                type="button"
-                                data-toggle="collapse"
-                                data-target="#sign-on-form"
-                                aria-expanded="false"
-                                aria-controls="sign-on-form">Sign up new</button>
-                        <div id="sign-on-form" class="collapse">
-                            <div th:include="user_form_header"></div>
-                        </div>
+                    </li>
+                    <!--<li class="px-3 py-2">-->
+                        <!--<button id="sign-up-new"-->
+                        <!--class="btn btn-success btn-block"-->
+                        <!--type="button"-->
+                        <!--data-toggle="collapse"-->
+                        <!--data-target="#sign-on-form"-->
+                        <!--aria-expanded="false"-->
+                        <!--aria-controls="sign-on-form">Sign up new</button>-->
+                    <!--</li>-->
+                    <li class="px-3 py-2" id="sign-on-form">
+                        <div th:include="registration_form"></div>
                     </li>
                 </ul>
             </li>
