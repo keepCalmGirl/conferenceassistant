@@ -1,8 +1,10 @@
 package ifit.cluster.cassistant.controller;
 
+import ifit.cluster.cassistant.domain.Role;
 import ifit.cluster.cassistant.domain.User;
 import ifit.cluster.cassistant.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +39,7 @@ public class UserController {
     @GetMapping("/users")
     public String getAllUsers(Model model){
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("roles", Role.values());
         return "users";
     }
 
@@ -59,5 +62,16 @@ public class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "{'text': 'fooooo'}";
+    }
+
+    @PostMapping(value = "/cur",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void changeRole(@RequestBody User user){
+        Optional<User> userOptional = userService.getUserById(user.getId());
+        userOptional.ifPresent(u -> {
+            u.setRole(user.getRole());
+            userService.saveUser(u);
+        });
     }
 }

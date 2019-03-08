@@ -21,7 +21,10 @@
             <th th:text="#{users.name}">Name</th>
             <th th:text="#{users.email}">E-mail</th>
             <th th:text="#{users.phone}">Phone</th>
-            <th th:text="#{users.role}">Role</th>
+            <th class="text-center"
+                scope="col"
+                style="width: 13%"
+                th:text="#{users.role}">Role</th>
         </tr>
         </thead>
         <tbody id="users-table-body">
@@ -30,7 +33,15 @@
             <td th:text="|${u.firstName} ${u.lastName}|"></td>
             <td th:text="${u.email}"></td>
             <td th:text="${u.phone}"></td>
-            <td th:text="${u.role}"></td>
+            <td id="td-user-role">
+                <select class="form-control form-control-sm" th:onchange="|changeRole(${u.id}, value)|">
+                    <option th:each="role:${roles}"
+                            th:value="${role}"
+                            th:text="${role.name}"
+                            th:selected="${role == u.role}">
+                    </option>
+                </select>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -40,12 +51,34 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#users-table-body tr').click(function() {
+        $('#users-table-body').on('click','tr', function (evt) {
             let email = $(this).attr('value');
-            $('#email-input').attr('value', email);
-            $('#users-profile-form').submit();
+            let $cell=$(evt.target).closest('td');
+            if( $cell.attr('id') !== 'td-user-role'){
+                $('#email-input').attr('value', email);
+                $('#users-profile-form').submit();
+            }
         });
     });
+
+    let token = $('#_csrf').attr('content');
+    let header = $('#_csrf_header').attr('content');
+
+    function changeRole(userId, role) {
+        $.ajax({
+            type:'POST',
+            url:"/cur",
+            contentType: "application/json",
+            data: JSON.stringify({
+                "id": userId,
+                "role":role
+            }),
+            dataType: "application/json",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        });
+    };
 </script>
 </body>
 
