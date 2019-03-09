@@ -2,43 +2,129 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-maxlength/1.7.0/bootstrap-maxlength.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Profile</title>
 </head>
 <header th:include="header"></header>
 <body>
     <div class="container" th:object="${user}">
-        <table>
-            <tbody>
-            <tr>
-                <td>First name</td>
-                <td th:text="*{firstName}"></td>
-            </tr>
-            <tr>
-                <td>Last name</td>
-                <td th:text="*{lastName}"></td>
-            </tr>
-            <tr>
-                <td>E-mail</td>
-                <td th:text="*{email}"></td>
-            </tr>
-            <tr>
-                <td>Phone</td>
-                <td th:text="*{phone}"></td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td th:text="*{password}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <h1 class="text-center" th:text="#{profile.profile}">Profile</h1>
+        <form th:action="@{/users/save}" method="post">
+
+            <!--<div class="form-group" >-->
+                <!--<input-->
+                        <!--type="text"-->
+                        <!--class="form-control"-->
+                        <!--name="firstName"-->
+                        <!--id="first-name"-->
+                        <!--placeholder="First name"-->
+                        <!--th:field="*{firstName}">-->
+            <!--</div>-->
+            <div class="form-group row" >
+                <label
+                        class="col-md-2"
+                        for="first-name" th:text="#{profile.first_name}">First name</label>
+                <input
+                        type="text"
+                        class="form-control col-md-4"
+                        name="firstName"
+                        id="first-name"
+                        placeholder="First name"
+                        th:placeholder="#{profile.first_name}"
+                        th:readonly="true"
+                        th:field="*{firstName}">
+            </div>
+            <div class="form-group row">
+                <label
+                        class="col-md-2"
+                        for="last-name" th:text="#{profile.last_name}">Last name</label>
+                <input
+                        type="text"
+                        class="form-control col-md-4"
+                        name="lastName"
+                        id="last-name"
+                        placeholder="Last name"
+                        th:placeholder="#{profile.last_name}"
+                        th:readonly="true"
+                        th:field="*{lastName}">
+            </div>
+            <div class="form-group row">
+                <label
+                    class="col-md-2"
+                    for="role" th:text="#{profile.role}">Role</label>
+                <select id="role"
+                        class="form-control form-control-sm col-md-4"
+                        th:disabled="true"
+                        th:field="*{role}">
+                    <option th:each="role:${roles}"
+                            th:value="${role}"
+                            th:text="${role.name}"
+                            th:selected="${role.USER}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label
+                        class="col-md-2"
+                        for="phone" th:text="#{profile.phone}">Phone</label>
+                <input
+                        type="tel"
+                        class="form-control col-md-4"
+                        name="phone" id="phone"
+                        placeholder="+380671234567"
+                        th:readonly="true"
+                        th:field="*{phone}">
+            </div>
+            <div class="form-group row">
+                <label
+                        class="col-md-2"
+                        for="email" th:text="#{profile.email}">Email</label>
+                <input
+                        id="email"
+                        type="email"
+                        class="form-control col-md-4"
+                        name="form-email"
+                        placeholder="email@example.com"
+                        th:readonly="true"
+                        th:field="*{email}" required>
+            </div>
+            <div class="form-group row">
+                <label
+                        class="col-md-2"
+                        for="password" th:text="#{profile.password}">Password</label>
+                <input
+                        id="password"
+                        type="password"
+                        class="form-control col-md-4"
+                        name="password"
+                        placeholder="Password"
+                        th:placeholder="#{profile.password}"
+                        th:readonly="true"
+                        th:field="*{password}" required>
+            </div>
+            <div class="form-group row">
+                <label
+                        class="col-md-2"
+                        for="password-confirm" th:text="#{profile.confirm}">Confirm</label>
+                <input
+                        type="password"
+                        class="form-control col-md-4"
+                        name="password-confirm"
+                        id="password-confirm"
+                        placeholder="Confirm"
+                        th:readonly="true"
+                        th:placeholder="#{profile.confirm}">
+            </div>
+            <!--<div class="form-group row px-3">-->
+                <!--<button type="submit" id="save" class="btn btn-outline-success col-sm mr-1">Save</button>-->
+                <!--&lt;!&ndash;<button type="reset" id="reset" class="btn btn-outline-danger col-sm ml-1">Reset</button>&ndash;&gt;-->
+            <!--</div>-->
+        </form>
     </div>
 </body>
 </html>

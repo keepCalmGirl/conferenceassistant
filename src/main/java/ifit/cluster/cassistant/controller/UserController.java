@@ -30,6 +30,7 @@ public class UserController {
         Optional<User> userByEmail = userService.getUserByEmail(email);
         if (userByEmail.isPresent()){
             model.addAttribute("user", userByEmail.get());
+            model.addAttribute("roles", Role.values());
             return "profile";
         } else {
             return "redirect:/";
