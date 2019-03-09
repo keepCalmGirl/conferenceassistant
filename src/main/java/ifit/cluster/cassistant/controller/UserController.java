@@ -40,6 +40,7 @@ public class UserController {
     public String getAllUsers(Model model){
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("roles", Role.values());
+        model.addAttribute("userMap", new User());
         return "users";
     }
 
@@ -54,6 +55,13 @@ public class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         model.addAttribute("user", userService.saveUser(user));
         return "profile";
+    }
+
+    @PostMapping("/users/save")
+    public String userSave(@ModelAttribute User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userService.saveUser(user);
+        return "redirect:/users";
     }
 
     @PostMapping(value = "/users/submit/new")
