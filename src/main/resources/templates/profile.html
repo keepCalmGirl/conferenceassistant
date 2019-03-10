@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/material-design-icons/3.0.1/material-icons.css">
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
     <script src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,17 +16,7 @@
 <body>
     <div class="container" th:object="${user}">
         <h1 class="text-center" th:text="#{profile.profile}">Profile</h1>
-        <form th:action="@{/users/save}" method="post">
-
-            <!--<div class="form-group" >-->
-                <!--<input-->
-                        <!--type="text"-->
-                        <!--class="form-control"-->
-                        <!--name="firstName"-->
-                        <!--id="first-name"-->
-                        <!--placeholder="First name"-->
-                        <!--th:field="*{firstName}">-->
-            <!--</div>-->
+        <form id="profile-form" th:action="@{/users/update}" method="post" >
             <div class="form-group row" >
                 <label
                         class="col-md-2"
@@ -53,7 +45,7 @@
                         th:readonly="true"
                         th:field="*{lastName}">
             </div>
-            <div class="form-group row">
+            <div class="form-group row" sec:authorize="hasAnyAuthority(0, 'ADMIN')">
                 <label
                     class="col-md-2"
                     for="role" th:text="#{profile.role}">Role</label>
@@ -80,51 +72,228 @@
                         th:readonly="true"
                         th:field="*{phone}">
             </div>
+            <div class="form-group">
+                <input
+                        type="hidden"
+                        th:field="*{id}">
+                <button
+                        type="button"
+                        id="edit"
+                        class="btn btn-outline-success"
+                        onclick="changeEditable(true)"
+                        th:text="#{profile.edit}">Edit</button>
+                <button
+                        type="button"
+                        id="cancel"
+                        class="btn btn-outline-danger"
+                        style="display: none;"
+                        onclick="changeEditable(false)"
+                        th:text="#{profile.cancel}">Cancel</button>
+                <button
+                        type="submit"
+                        id="save"
+                        class="btn btn-success"
+                        style="display: none;"
+                        th:text="#{profile.save}">Save</button>
+            </div>
+        </form>
+        <form id="change-email-password-form" th:action="@{/users/update}" method="post" >
             <div class="form-group row">
                 <label
                         class="col-md-2"
-                        for="email" th:text="#{profile.email}">Email</label>
-                <input
-                        id="email"
-                        type="email"
-                        class="form-control col-md-4"
-                        name="form-email"
-                        placeholder="email@example.com"
-                        th:readonly="true"
-                        th:field="*{email}" required>
+                        for="profile-email-input" th:text="#{profile.email}">Email</label>
+                <div class="input-group col-md-4">
+                    <input
+                            id="profile-email-input"
+                            type="email"
+                            class="form-control"
+                            placeholder="email@example.com"
+                            th:readonly="true"
+                            th:field="*{email}" required>
+                    <div class="input-group-append">
+                        <button
+                                id="profile-email-change-button"
+                                class="btn btn-outline-success d-flex justify-content-center align-content-between"
+                                type="button"
+                                onclick="changeEmail();">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group row">
+            <div class="form-group row" id="password-div">
                 <label
                         class="col-md-2"
-                        for="password" th:text="#{profile.password}">Password</label>
-                <input
-                        id="password"
-                        type="password"
-                        class="form-control col-md-4"
-                        name="password"
-                        placeholder="Password"
-                        th:placeholder="#{profile.password}"
-                        th:readonly="true"
-                        th:field="*{password}" required>
+                        for="profile-password-input" th:text="#{profile.password}">Password</label>
+                <div class="input-group col-md-4">
+                    <div class="input-group-prepend">
+                        <button
+                                id="password-visibility-button"
+                                class="btn btn-outline-primary d-none justify-content-center align-content-between"
+                                onclick="changePasswordVisibility();"
+                                type="button">
+                            <i class="material-icons">visibility</i>
+                        </button>
+                    </div>
+                    <input id="profile-user-password" type="hidden" th:value="*{password}"></input>
+                    <input
+                            id="profile-password-input"
+                            type="password"
+                            class="form-control"
+                            name="password"
+                            placeholder="Password"
+                            aria-describedby="basic-addon2"
+                            th:placeholder="#{profile.password}"
+                            th:readonly="true"
+                            th:name="password"
+                            th:value="*{password}"
+                            required>
+                    <div class="input-group-append">
+                        <button
+                                id="profile-password-change-button"
+                                class="btn btn-outline-success d-flex justify-content-center align-content-between"
+                                type="button"
+                                onclick="changePassword();">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row"
+                 id="password-confirm-div"
+                 style="display: none">
                 <label
                         class="col-md-2"
                         for="password-confirm" th:text="#{profile.confirm}">Confirm</label>
-                <input
-                        type="password"
-                        class="form-control col-md-4"
-                        name="password-confirm"
-                        id="password-confirm"
-                        placeholder="Confirm"
-                        th:readonly="true"
-                        th:placeholder="#{profile.confirm}">
+                <div class="input-group col-md-4">
+                    <input
+                            type="password"
+                            class="form-control"
+                            name="password-confirm"
+                            id="password-confirm"
+                            placeholder="Confirm"
+                            th:readonly="true"
+                            th:placeholder="#{profile.confirm}">
+                    <div class="input-group-append">
+                        <button class="btn btn-success"
+                                type="button"
+                                th:text="#{profile.save}">Save</button>
+                    </div>
+                </div>
             </div>
-            <!--<div class="form-group row px-3">-->
-                <!--<button type="submit" id="save" class="btn btn-outline-success col-sm mr-1">Save</button>-->
-                <!--&lt;!&ndash;<button type="reset" id="reset" class="btn btn-outline-danger col-sm ml-1">Reset</button>&ndash;&gt;-->
-            <!--</div>-->
+            <div class="form-group">
+                <input
+                        type="hidden"
+                        th:field="*{id}">
+                <button
+                        type="submit"
+                        id="saveEmailPasswordButton"
+                        class="btn btn-success d-none"
+                        th:text="#{profile.save}">Save</button>
+            </div>
         </form>
     </div>
+<script>
+    function changeEditable(isEdit) {
+        $('#cancel').css({'display': isEdit ? 'inline' : 'none'});
+        $('#save').css({'display': isEdit ? 'inline' : 'none'});
+        $('#edit').css({'display': isEdit? 'none' : 'inline'});
+        $('#profile-form input').attr('readonly', !isEdit);
+        $('#role').attr('disabled', !isEdit);
+        toggleEmailPasswordButtons(isEdit);
+    }
+    function toggleEmailPasswordButtons(isEnable) {
+        $('#profile-email-change-button').attr('disabled', isEnable);
+        $('#profile-password-change-button').attr('disabled', isEnable)
+    }
+
+    function changeEmail() {
+        toggleEmailInput();
+        toggleEmailButtons();
+        toggleSaveEmailPasswordButton();
+    }
+    function toggleEmailInput() {
+        let $emailInput = $('#profile-email-input');
+        let attr = $emailInput.attr('readonly');
+        $emailInput.attr('readonly', !attr);
+    }
+    function toggleEmailButtons() {
+        $('#profile-email-change-button')
+            .toggleClass('btn-outline-success')
+            .toggleClass('btn-outline-danger');
+        let $emailButton = $('#profile-email-change-button i');
+        let isEditable = $emailButton.text() === 'edit';
+        $emailButton.text(isEditable ? 'cancel' : 'edit');
+        $('#edit').attr('disabled', isEditable);
+        togglePasswordButton(isEditable);
+    }
+    function toggleSaveEmailPasswordButton() {
+        $('#saveEmailPasswordButton')
+            .toggleClass('d-none');
+    }
+
+    function changePassword() {
+        togglePasswordInput();
+        togglePasswordButtons();
+        toggleSaveEmailPasswordButton();
+        togglePasswordVisibility();
+    }
+    function togglePasswordInput() {
+        let $passwordInput = $('#profile-password-input');
+        let attr = $passwordInput.attr('readonly');
+        let password = $('#profile-user-password').val();
+        $passwordInput.attr('readonly', !attr);
+        $passwordInput.val(attr ? '' : password);
+    }
+    function togglePasswordButtons() {
+        $('#profile-password-change-button')
+            .toggleClass('btn-outline-success')
+            .toggleClass('btn-outline-danger');
+        let $passwordButton = $('#profile-password-change-button i');
+        let isEditable = $passwordButton.text() === 'edit';
+        $passwordButton.text(isEditable ? 'cancel' : 'edit');
+        $('#edit').attr('disabled', isEditable);
+        toggleEmailButton(isEditable);
+    }
+
+    function togglePasswordButton(disable) {
+        $('#profile-password-change-button').attr('disabled', disable);
+    }
+    function toggleEmailButton(disable) {
+        $('#profile-email-change-button').attr('disabled', disable);
+    }
+
+    function changePasswordVisibility() {
+        let $icon = $('#password-visibility-button i');
+        let isVisible = $icon.text() === 'visibility';
+        changePasswordIconVisibility(isVisible);
+        changePasswordInputVisibility(isVisible);
+        togglePasswordIconColor();
+    }
+    function togglePasswordVisibility() {
+        $('#password-visibility-button')
+            .toggleClass('d-none')
+            .toggleClass('d-flex');
+        changePasswordInputVisibility(false);
+        changePasswordIconVisibility(false);
+        if ($('#password-visibility-button').hasClass('btn-primary')) {
+            togglePasswordIconColor();
+        }
+    }
+    function changePasswordInputVisibility(isVisible) {
+        $('#profile-password-input')
+            .attr('type', isVisible ? 'text' : 'password');
+    }
+    function changePasswordIconVisibility(isVisible) {
+        $('#password-visibility-button i')
+            .text(isVisible ? 'visibility_off' : 'visibility');
+    }
+    function togglePasswordIconColor() {
+        $('#password-visibility-button')
+            .toggleClass('btn-primary')
+            .toggleClass('btn-outline-primary');
+    }
+</script>
 </body>
 </html>

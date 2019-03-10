@@ -29,7 +29,8 @@ public class UserController {
     public String getProfile(@RequestParam(name = "email") String email, Model model){
         Optional<User> userByEmail = userService.getUserByEmail(email);
         if (userByEmail.isPresent()){
-            model.addAttribute("user", userByEmail.get());
+            User user = userByEmail.get();
+            model.addAttribute("user", user);
             model.addAttribute("roles", Role.values());
             return "profile";
         } else {
@@ -63,6 +64,29 @@ public class UserController {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/users";
+    }
+
+    @PostMapping("/users/update")
+    public String userUpdateEmail(@ModelAttribute User user, Model model) {
+        Optional<User> userById = userService.getUserById(user.getId());
+        userById.ifPresent(u -> {
+            if (user.getEmail() == null) {
+                u.setFirstName(user.getFirstName());
+                u.setLastName(user.getLastName());
+                u.setPhone(user.getPhone());
+                u.setPhoto(user.getPhoto());
+                u.setRole(user.getRole());
+            } else {
+                u.setEmail(user.getEmail());
+                if (!u.getEmail().equals(user.getEmail()))
+                    u.setEmail(user.getEmail());
+                if (!u.getPassword().equals(user.getPassword()))
+                    u.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            }
+            model.addAttribute("user", userService.saveUser(u));
+            model.addAttribute("roles", Role.values());
+        });
+        return "profile";
     }
 
     @PostMapping(value = "/users/submit/new")
