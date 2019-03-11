@@ -19,7 +19,7 @@
         <form id="profile-form" th:action="@{/users/update}" method="post" >
             <div class="form-group row" >
                 <label
-                        class="col-md-2"
+                        class="col-md-2 col-form-label"
                         for="first-name" th:text="#{profile.first_name}">First name</label>
                 <input
                         type="text"
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group row">
                 <label
-                        class="col-md-2"
+                        class="col-md-2 col-form-label"
                         for="last-name" th:text="#{profile.last_name}">Last name</label>
                 <input
                         type="text"
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group row" sec:authorize="hasAnyAuthority(0, 'ADMIN')">
                 <label
-                    class="col-md-2"
+                    class="col-md-2 col-form-label"
                     for="role" th:text="#{profile.role}">Role</label>
                 <select id="role"
                         class="form-control form-control-sm col-md-4"
@@ -62,7 +62,7 @@
             </div>
             <div class="form-group row">
                 <label
-                        class="col-md-2"
+                        class="col-md-2 col-form-label"
                         for="phone" th:text="#{profile.phone}">Phone</label>
                 <input
                         type="tel"
@@ -100,7 +100,7 @@
         <form id="change-email-password-form" th:action="@{/users/update}" method="post" >
             <div class="form-group row">
                 <label
-                        class="col-md-2"
+                        class="col-md-2 col-form-label"
                         for="profile-email-input" th:text="#{profile.email}">Email</label>
                 <div class="input-group col-md-4">
                     <input
@@ -124,7 +124,7 @@
             </div>
             <div class="form-group row" id="password-div">
                 <label
-                        class="col-md-2"
+                        class="col-md-2 col-form-label"
                         for="profile-password-input" th:text="#{profile.password}">Password</label>
                 <div class="input-group col-md-4">
                     <div class="input-group-prepend">
@@ -164,7 +164,7 @@
                  id="password-confirm-div"
                  style="display: none">
                 <label
-                        class="col-md-2"
+                        class="col-md-2 col-form-label"
                         for="password-confirm" th:text="#{profile.confirm}">Confirm</label>
                 <div class="input-group col-md-4">
                     <input
