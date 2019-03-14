@@ -11,7 +11,7 @@
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Users</title>
 </head>
-<header th:include="header"></header>
+<span th:replace="fragments/header :: mainNavBar"></span>
 <body>
 <div class="container" th:object="${users}">
     <h1 class="text-center" th:text="#{users.users}">Users</h1>

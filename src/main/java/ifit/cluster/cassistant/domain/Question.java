@@ -40,6 +40,10 @@ public class Question implements Comparable<Question> {
         this.topic = topic;
     }
 
+    public boolean hasLike(String email) {
+        return likes.stream().anyMatch(user -> user.getEmail().equals(email));
+    }
+
     @Override
     public int compareTo(Question o) {
         return o.likes.size()-likes.size();

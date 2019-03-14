@@ -15,7 +15,7 @@
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Topic</title>
 </head>
-<header th:include="header"></header>
+<span th:replace="fragments/header :: mainNavBar"></span>
 <body>
 <div class="container">
     <h1 class="text-center" th:text="${topic.name}">Topic name</h1>

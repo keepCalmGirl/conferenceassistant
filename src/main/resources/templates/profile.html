@@ -12,7 +12,7 @@
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Profile</title>
 </head>
-<header th:include="header"></header>
+<span th:replace="fragments/header :: mainNavBar"></span>
 <body>
     <div class="container" th:object="${user}">
         <h1 class="text-center" th:text="#{profile.profile}">Profile</h1>

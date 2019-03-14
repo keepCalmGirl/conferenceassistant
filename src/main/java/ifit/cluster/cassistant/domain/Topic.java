@@ -51,4 +51,8 @@ public class Topic {
         this.dateTime = dateTime;
         this.rate = rate;
     }
+
+    public List<Question> getSortedQuestions(){
+        return questions.stream().sorted().collect(Collectors.toList());
+    }
 }
